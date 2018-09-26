@@ -1,0 +1,44 @@
+PODS:
+  - ChameleonFramework/Default (2.1.0)
+  - ChameleonFramework/Swift (2.1.0):
+    - ChameleonFramework/Default
+  - ImageSlideshow (1.6.1):
+    - ImageSlideshow/Core (= 1.6.1)
+  - ImageSlideshow/Core (1.6.1)
+  - MobileVLCKit (3.1.4)
+  - SwiftSocket (2.0.2)
+  - SwipeCellKit (2.5.0)
+
+DEPENDENCIES:
+  - ChameleonFramework/Swift (from `https://github.com/zooliet/Chameleon.git`)
+  - ImageSlideshow (~> 1.6)
+  - MobileVLCKit (~> 3.1)
+  - SwiftSocket
+  - SwipeCellKit
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - ImageSlideshow
+    - MobileVLCKit
+    - SwiftSocket
+    - SwipeCellKit
+
+EXTERNAL SOURCES:
+  ChameleonFramework:
+    :git: https://github.com/zooliet/Chameleon.git
+
+CHECKOUT OPTIONS:
+  ChameleonFramework:
+    :commit: 130b5c54c868911df87dcb977d6e52b29deb5194
+    :git: https://github.com/zooliet/Chameleon.git
+
+SPEC CHECKSUMS:
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  ImageSlideshow: f0f33e1a20668e83d77f5fb7729e4ae4437c0759
+  MobileVLCKit: 34e17d0148c7a1af90c68c10b17b0707dc980d78
+  SwiftSocket: 6f4c9c63fbc5c1d61188936bb3c599fd546f40ae
+  SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
+
+PODFILE CHECKSUM: 4080e23909cdfda319be8b3bcff8ad5cf50fdb0e
+
+COCOAPODS: 1.5.3
