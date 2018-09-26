@@ -149,7 +149,20 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         } else {
             recordingButton.setImage(UIImage(named: "record"), for: .normal)
         }
+        // mediaPlayer.saveVideoSnapshot(at: ".", withWidth: 320, andHeight: 240)
+        // print(mediaPlayer.snapshots)
         
+        
+//        let player = mediaPlayer.drawable as! UIView
+        //        let size = player.frame.size
+//        UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+//        let rec = player.frame
+//        player.drawHierarchy(in: rec, afterScreenUpdates: false)
+//
+//        let image = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+//        print(image!)
+//        debugImage.image = image
         
     }
 
