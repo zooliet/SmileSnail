@@ -27,8 +27,8 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     
     let defaults = UserDefaults.standard
     var mediaPlayer: VLCMediaPlayer = VLCMediaPlayer()
-    let url = URL(string: "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov")
-    // let url = URL(string: "rtsp://admin:admin@192.168.100.1/cam1/h264")
+//    let url = URL(string: "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov")
+     let url = URL(string: "rtsp://admin:admin@192.168.100.1/cam1/h264")
     var recordingStatus: Bool = false
     var udpClient: UDPClient?
     
