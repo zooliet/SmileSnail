@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		125F89872166E48A00071057 /* ThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125F89862166E48A00071057 /* ThumbnailCell.swift */; };
+		125F898B216720D200071057 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125F898A216720D200071057 /* Settings.swift */; };
+		125F898D21672C1E00071057 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125F898C21672C1E00071057 /* Helper.swift */; };
 		129BD33C2159D2600008A493 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129BD33B2159D2600008A493 /* AppDelegate.swift */; };
 		129BD33E2159D2600008A493 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129BD33D2159D2600008A493 /* IntroViewController.swift */; };
 		129BD3412159D2600008A493 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 129BD33F2159D2600008A493 /* Main.storyboard */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		125F89862166E48A00071057 /* ThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailCell.swift; sourceTree = "<group>"; };
+		125F898A216720D200071057 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		125F898C21672C1E00071057 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		129BD3382159D2600008A493 /* SmileSnail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmileSnail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		129BD33B2159D2600008A493 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		129BD33D2159D2600008A493 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +92,9 @@
 				129BD3422159D2610008A493 /* Assets.xcassets */,
 				129BD3442159D2610008A493 /* LaunchScreen.storyboard */,
 				129BD3472159D2610008A493 /* Info.plist */,
+				125F89862166E48A00071057 /* ThumbnailCell.swift */,
+				125F898A216720D200071057 /* Settings.swift */,
+				125F898C21672C1E00071057 /* Helper.swift */,
 			);
 			path = SmileSnail;
 			sourceTree = "<group>";
@@ -240,9 +249,12 @@
 			files = (
 				129BD33E2159D2600008A493 /* IntroViewController.swift in Sources */,
 				12BA64D8215B0B0400704F9D /* ChartImageViewController.swift in Sources */,
+				125F89872166E48A00071057 /* ThumbnailCell.swift in Sources */,
 				12D7F6C0215A23DC0098F029 /* ChartViewController.swift in Sources */,
 				12BA64E0215B306800704F9D /* ProgressHUD.m in Sources */,
 				129BD33C2159D2600008A493 /* AppDelegate.swift in Sources */,
+				125F898B216720D200071057 /* Settings.swift in Sources */,
+				125F898D21672C1E00071057 /* Helper.swift in Sources */,
 				12D7F6C4215A28C90098F029 /* SettingsViewController.swift in Sources */,
 				12D7F6BE2159F6130098F029 /* CameraViewController.swift in Sources */,
 			);
