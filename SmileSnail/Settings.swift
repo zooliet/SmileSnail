@@ -19,11 +19,11 @@ class Settings {
     var deviceID: String = "Not Connected"
     var batteryStatus: Int = 100
     var patientName: String = "NONAME"
-    
+
     var udpClient: UDPClient?
     // var udpClient: UDPClient = UDPClient(address: "192.168.100.1", port: 1008)
     // print("Connected to host \(udpClient.address):\(udpClient.port)")
-    
-    
+
+
     private init() {}
 }

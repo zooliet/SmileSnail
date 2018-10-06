@@ -11,17 +11,17 @@ import ImageSlideshow
 
 class ChartImageViewController: UIViewController {
 
-    var selected : Int? {
+    @IBOutlet weak var slideShow: ImageSlideshow!
+
+    var selected : String? {
         didSet{
             loadImages()
         }
     }
 
-    let localSource = [ImageSource(imageString: "img1")!, ImageSource(imageString: "img2")!, ImageSource(imageString: "img3")!, ImageSource(imageString: "img4")!]
-    
-    @IBOutlet weak var slideShow: ImageSlideshow!
-    
-    
+    // let localSource = [ImageSource(imageString: "img1")!, ImageSource(imageString: "img2")!, ImageSource(imageString: "img3")!, ImageSource(imageString: "img4")!]
+    var localSource: [ImageSource] = [ImageSource]()
+
 //    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
 //        return .portrait
 //    }
@@ -29,10 +29,10 @@ class ChartImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        slideShow.slideshowInterval = 5.0
+        // slideShow.slideshowInterval = 5.0
         slideShow.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
         slideShow.contentScaleMode = UIView.ContentMode.scaleAspectFill
-        
+
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = UIColor.lightGray
         pageControl.pageIndicatorTintColor = UIColor.black
@@ -51,7 +51,7 @@ class ChartImageViewController: UIViewController {
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         slideShow.addGestureRecognizer(recognizer)
     }
-    
+
 
     /*
     // MARK: - Navigation
@@ -66,16 +66,25 @@ class ChartImageViewController: UIViewController {
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     func loadImages() {
-        print(selected!)
+        let fm = FileManager.default
+        let path = getDocumentsDirectory().path
+        let fileList = try! fm.contentsOfDirectory(atPath: path)
+        for fileName in fileList {
+            if fileName.hasPrefix(selected!) {
+                // print(fileName)
+                let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
+                let imageData = try! Data(contentsOf: fileURL)
+                let image = UIImage(data: imageData)!
+                localSource.append(ImageSource(image: image))
+            }
+        }
     }
-    
+
     @objc func didTap() {
         let fullScreenController = slideShow.presentFullScreenController(from: self)
         // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
         fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .white, color: nil)
     }
 }
-
-

@@ -54,8 +54,8 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
 
     override func viewWillDisappear(_ animated: Bool) {
-        // mediaPlayer?.stop()
-        // mediaPlayer = nil
+        mediaPlayer?.stop()
+        mediaPlayer = nil
     }
 
 
@@ -151,6 +151,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     @IBAction func snapshotPressed(_ sender: Any) {
         // mediaPlayer?.saveVideoSnapshot(at: ".", withWidth: 320, andHeight: 240)
         // print(mediaPlayer?.snapshots)
+        if mediaPlayer == nil { return }
 
         if let player = mediaPlayer?.drawable as? UIView? {
             let size = player?.frame.size
@@ -164,11 +165,19 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
             UIGraphicsEndImageContext();
             // print(snapshotImage!)
 
-            thumbnails.insert("img\(Int(arc4random_uniform(4)+1))", at: 0)
+            settings.patientName = "Anna Kim"
+            let patientName = settings.patientName
+            let imageName = "\(patientName)_\(Date()).jpg"
+            let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+
+            if let jpegData = snapshotImage?.jpegData(compressionQuality: 80) {
+                try? jpegData.write(to: imagePath)
+            }
+
+            thumbnails.insert(imagePath.path, at: 0)
             let indexPath = IndexPath(item: 0, section: 0)
             thumbnailsView.insertItems(at: [indexPath])
         }
-
     }
 
 
@@ -193,19 +202,6 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
             mediaPlayer?.play()
         }
     }
-
-//    func turnOnOffLight() {
-//        // guard let udpClient = udpClient else { return }
-//        // print("Connected to host \(udpClient.address):\(udpClient.port)")
-//        if defaults.bool(forKey: "Light") {
-//            let lightLevel = defaults.integer(forKey: "LightLevel")
-//            let firstByte: Byte = Byte(Int(lightLevel / 10) + 48)
-//            let secondByte: Byte = Byte(Int(lightLevel % 10) + 48)
-//            // let _ = udpClient.send(data: [0x01, 0x55, firstByte, secondByte, 0x30, 0x30, 0x30, 0x30])
-//        } else {
-//            // let _ = udpClient.send(data: [0x01, 0x55, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30])
-//        }
-//    }
 }
 
 extension CameraViewController: UICollectionViewDataSource {
