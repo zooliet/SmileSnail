@@ -24,7 +24,7 @@ class IntroViewController: UIViewController {
         super.viewDidLoad()
 
         configButtonsStyle()
-        updateDeviceInfo()
+        updateDeviceInfo()        
     }
 
     override func didReceiveMemoryWarning() {

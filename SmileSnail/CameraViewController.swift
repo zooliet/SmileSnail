@@ -9,7 +9,7 @@
 import UIKit
 // import ChameleonFramework
 // import SwiftSocket
-
+// import CocoaAsyncSocket
 
 class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
@@ -31,6 +31,8 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     var mediaPlayer: VLCMediaPlayer?
     var thumbnails: [String] = [String]()
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,6 +48,12 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         videoView.addGestureRecognizer(recognizer)
+        
+//        let udpClient = UdpSocketSR()
+//        udpClient.SetupAndSend()
+//        let bytes = [0x01, 0x55, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35]
+//        let data = NSData(bytes: bytes, length: bytes.count)
+//        tcpSocket.write(data as Data, withTimeout: 10, tag: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -155,22 +163,33 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
         if let player = mediaPlayer?.drawable as? UIView? {
             let size = player?.frame.size
-            // print(size!)
+            // let size = CGSize(width: 614.5, height: 461.0)
+            print(size!)
 
             UIGraphicsBeginImageContext(size!)
             // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
-            let rec = player?.frame
+            var rec = player?.frame
+            print(rec!.origin.x, rec!.origin.y)
+            let x = -rec!.origin.x
+            let y = -rec!.origin.y
+            let width = rec!.width + rec!.origin.x
+            let height = rec!.height + rec!.origin.y
+
+            rec = CGRect(x: x, y: y, width: width, height: height)
             player?.drawHierarchy(in: rec!, afterScreenUpdates: false)
             let snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             // print(snapshotImage!)
 
-            settings.patientName = "Anna Kim"
             let patientName = settings.patientName
-            let imageName = "\(patientName)_\(Date()).jpg"
+            let date = Date()
+            // let dateFormatter = DateFormatter()
+            // dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            // let date = dateFormatter.string(from: Date())
+            let imageName = "\(patientName)_\(date).jpg"
             let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
 
-            if let jpegData = snapshotImage?.jpegData(compressionQuality: 80) {
+            if let jpegData = snapshotImage?.jpegData(compressionQuality: 100) {
                 try? jpegData.write(to: imagePath)
             }
 
@@ -178,6 +197,32 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
             let indexPath = IndexPath(item: 0, section: 0)
             thumbnailsView.insertItems(at: [indexPath])
         }
+//
+//        if let player = mediaPlayer?.drawable as? UIView? {
+//            let size = player?.frame.size
+//            // print(size!)
+//
+//            UIGraphicsBeginImageContext(size!)
+//            // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
+//            let rec = player?.frame
+//            player?.drawHierarchy(in: rec!, afterScreenUpdates: false)
+//            let snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+//            UIGraphicsEndImageContext();
+//            // print(snapshotImage!)
+//
+//            settings.patientName = "Anna Kim"
+//            let patientName = settings.patientName
+//            let imageName = "\(patientName)_\(Date()).jpg"
+//            let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+//
+//            if let jpegData = snapshotImage?.jpegData(compressionQuality: 80) {
+//                try? jpegData.write(to: imagePath)
+//            }
+//
+//            thumbnails.insert(imagePath.path, at: 0)
+//            let indexPath = IndexPath(item: 0, section: 0)
+//            thumbnailsView.insertItems(at: [indexPath])
+//        }
     }
 
 

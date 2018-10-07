@@ -21,7 +21,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SKn-LK-6tp" userLabel="HeaderView">
                                 <rect key="frame" x="0.0" y="20" width="1024" height="72"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device: xxxx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v8f-gr-9NY">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device: Not Connected" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v8f-gr-9NY">
                                         <rect key="frame" x="8" y="17.5" width="1008" height="37.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="32"/>
                                         <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -574,7 +574,7 @@
         <image name="img1" width="540" height="360"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="x5M-3j-MZC"/>
-        <segue reference="LRC-s3-cDq"/>
+        <segue reference="edY-Eu-D3r"/>
+        <segue reference="epT-Oa-hLb"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -71,6 +71,7 @@ class ChartImageViewController: UIViewController {
         let fm = FileManager.default
         let path = getDocumentsDirectory().path
         let fileList = try! fm.contentsOfDirectory(atPath: path)
+
         for fileName in fileList {
             if fileName.hasPrefix(selected!) {
                 // print(fileName)
@@ -80,6 +81,8 @@ class ChartImageViewController: UIViewController {
                 localSource.append(ImageSource(image: image))
             }
         }
+        localSource = localSource.reversed()
+        
     }
 
     @objc func didTap() {

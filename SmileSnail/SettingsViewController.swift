@@ -43,10 +43,10 @@ class SettingsViewController: UIViewController {
         for button in [cameraButton, chartButton, settingsButton, lightOnButton] {
             button?.layer.cornerRadius = 10.0
             button?.layer.borderWidth = 5
-            button?.layer.borderColor = UIColor.flatWhite.cgColor
+            button?.layer.borderColor = UIColor.white.cgColor
         }
         
-        settingsButton.backgroundColor = UIColor.flatWhite
-        settingsButton.setTitleColor(UIColor.flatBlack, for: .normal)        
+        settingsButton.backgroundColor = UIColor.white
+        settingsButton.setTitleColor(UIColor.black, for: .normal)        
     }
 }

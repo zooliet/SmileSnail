@@ -18,6 +18,7 @@
 		12BA64D8215B0B0400704F9D /* ChartImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BA64D7215B0B0400704F9D /* ChartImageViewController.swift */; };
 		12BA64E0215B306800704F9D /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 12BA64DE215B306800704F9D /* ProgressHUD.m */; };
 		12BA64E1215B306800704F9D /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 12BA64DF215B306800704F9D /* ProgressHUD.bundle */; };
+		12BF39F22169283300D9EF7F /* BoardSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BF39F12169283200D9EF7F /* BoardSocket.swift */; };
 		12D7F6BE2159F6130098F029 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D7F6BD2159F6130098F029 /* CameraViewController.swift */; };
 		12D7F6C0215A23DC0098F029 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D7F6BF215A23DC0098F029 /* ChartViewController.swift */; };
 		12D7F6C4215A28C90098F029 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D7F6C3215A28C90098F029 /* SettingsViewController.swift */; };
@@ -40,6 +41,7 @@
 		12BA64DD215B306800704F9D /* ProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressHUD.h; sourceTree = "<group>"; };
 		12BA64DE215B306800704F9D /* ProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressHUD.m; sourceTree = "<group>"; };
 		12BA64DF215B306800704F9D /* ProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ProgressHUD.bundle; sourceTree = "<group>"; };
+		12BF39F12169283200D9EF7F /* BoardSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSocket.swift; sourceTree = "<group>"; };
 		12D7F6BD2159F6130098F029 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		12D7F6BF215A23DC0098F029 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		12D7F6C3215A28C90098F029 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				125F89862166E48A00071057 /* ThumbnailCell.swift */,
 				125F898A216720D200071057 /* Settings.swift */,
 				125F898C21672C1E00071057 /* Helper.swift */,
+				12BF39F12169283200D9EF7F /* BoardSocket.swift */,
 			);
 			path = SmileSnail;
 			sourceTree = "<group>";
@@ -205,16 +208,18 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SmileSnail/Pods-SmileSnail-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftSocket/SwiftSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,6 +257,7 @@
 				125F89872166E48A00071057 /* ThumbnailCell.swift in Sources */,
 				12D7F6C0215A23DC0098F029 /* ChartViewController.swift in Sources */,
 				12BA64E0215B306800704F9D /* ProgressHUD.m in Sources */,
+				12BF39F22169283300D9EF7F /* BoardSocket.swift in Sources */,
 				129BD33C2159D2600008A493 /* AppDelegate.swift in Sources */,
 				125F898B216720D200071057 /* Settings.swift in Sources */,
 				125F898D21672C1E00071057 /* Helper.swift in Sources */,

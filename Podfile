@@ -7,9 +7,13 @@ target 'SmileSnail' do
   use_frameworks!
 
   # Pods for SmileSnail
-  pod 'ChameleonFramework/Swift', :git => 'https://github.com/zooliet/Chameleon.git'
+  # pod 'ChameleonFramework/Swift', :git => 'https://github.com/zooliet/Chameleon.git'
   pod 'SwipeCellKit'
   pod 'ImageSlideshow', '~> 1.6'
   pod 'MobileVLCKit', '~> 3.1'
   pod 'SwiftSocket'
+  pod 'Alamofire'
+  pod 'SwiftyJSON'
+  # pod 'BlueSocket'
+  # pod 'CocoaAsyncSocket' 
 end
