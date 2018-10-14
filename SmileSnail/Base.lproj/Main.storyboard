@@ -22,17 +22,25 @@
                                 <rect key="frame" x="0.0" y="20" width="1024" height="72"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device: Not Connected" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v8f-gr-9NY">
-                                        <rect key="frame" x="8" y="22" width="1008" height="28"/>
+                                        <rect key="frame" x="8" y="22" width="250" height="28"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery:  100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zu1-65-UPG">
+                                        <rect key="frame" x="766" y="22" width="250" height="28"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="v8f-gr-9NY" firstAttribute="centerY" secondItem="SKn-LK-6tp" secondAttribute="centerY" id="411-QU-zp8"/>
-                                    <constraint firstAttribute="trailing" secondItem="v8f-gr-9NY" secondAttribute="trailing" constant="8" id="U5Q-qQ-9U6"/>
+                                    <constraint firstItem="zu1-65-UPG" firstAttribute="width" secondItem="v8f-gr-9NY" secondAttribute="width" id="fbt-Ip-Sex"/>
+                                    <constraint firstAttribute="trailing" secondItem="zu1-65-UPG" secondAttribute="trailing" constant="8" id="gDO-vm-lIB"/>
                                     <constraint firstItem="v8f-gr-9NY" firstAttribute="leading" secondItem="SKn-LK-6tp" secondAttribute="leading" constant="8" id="vOP-ba-uro"/>
                                     <constraint firstAttribute="height" constant="72" id="wAK-Gz-D2O"/>
+                                    <constraint firstItem="zu1-65-UPG" firstAttribute="centerY" secondItem="SKn-LK-6tp" secondAttribute="centerY" id="x6o-n7-uqq"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q78-Uj-fVz" userLabel="FooterView">
@@ -162,7 +170,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sff-Uu-iIW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-483" y="-1080"/>
+            <point key="canvasLocation" x="-483.39843749999994" y="-1080.46875"/>
         </scene>
         <!--Camera View Controller-->
         <scene sceneID="vrw-92-aSs">
@@ -176,16 +184,24 @@
                                 <rect key="frame" x="0.0" y="8" width="1024" height="72"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device: xxxx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PiX-sG-cRh">
-                                        <rect key="frame" x="8" y="22" width="1008" height="28"/>
+                                        <rect key="frame" x="8" y="22" width="161.5" height="28"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery:  100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cw1-Cs-hiz">
+                                        <rect key="frame" x="854.5" y="22" width="161.5" height="28"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="cw1-Cs-hiz" firstAttribute="centerY" secondItem="qpx-ha-J5k" secondAttribute="centerY" id="1Hj-l3-TjG"/>
                                     <constraint firstItem="PiX-sG-cRh" firstAttribute="centerY" secondItem="qpx-ha-J5k" secondAttribute="centerY" id="2H6-UJ-0PO"/>
+                                    <constraint firstAttribute="trailing" secondItem="cw1-Cs-hiz" secondAttribute="trailing" constant="8" id="AB5-Qg-Hei"/>
                                     <constraint firstAttribute="height" constant="72" id="NDg-ub-pZn"/>
-                                    <constraint firstAttribute="trailing" secondItem="PiX-sG-cRh" secondAttribute="trailing" constant="8" id="wlM-Hh-9rJ"/>
+                                    <constraint firstItem="cw1-Cs-hiz" firstAttribute="width" secondItem="PiX-sG-cRh" secondAttribute="width" id="qoN-BZ-Naq"/>
                                     <constraint firstItem="PiX-sG-cRh" firstAttribute="leading" secondItem="qpx-ha-J5k" secondAttribute="leading" constant="8" id="zVS-QM-war"/>
                                 </constraints>
                             </view>
@@ -421,7 +437,13 @@
                                 <rect key="frame" x="0.0" y="8" width="1024" height="72"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device: xxxx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wCN-yp-vIJ">
-                                        <rect key="frame" x="8" y="22" width="1008" height="28"/>
+                                        <rect key="frame" x="8" y="22" width="161.5" height="28"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery:  100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zW9-Pp-ztz">
+                                        <rect key="frame" x="854.5" y="22" width="161.5" height="28"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -429,9 +451,11 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="72" id="B0Z-R5-SBz"/>
+                                    <constraint firstItem="zW9-Pp-ztz" firstAttribute="centerY" secondItem="ec9-tA-IdP" secondAttribute="centerY" id="L8y-Ur-qq6"/>
                                     <constraint firstItem="wCN-yp-vIJ" firstAttribute="leading" secondItem="ec9-tA-IdP" secondAttribute="leading" constant="8" id="OXV-8Q-HOE"/>
                                     <constraint firstItem="wCN-yp-vIJ" firstAttribute="centerY" secondItem="ec9-tA-IdP" secondAttribute="centerY" id="auw-dP-4CG"/>
-                                    <constraint firstAttribute="trailing" secondItem="wCN-yp-vIJ" secondAttribute="trailing" constant="8" id="tgC-mx-JJc"/>
+                                    <constraint firstAttribute="trailing" secondItem="zW9-Pp-ztz" secondAttribute="trailing" constant="8" id="eMz-dw-7yQ"/>
+                                    <constraint firstItem="zW9-Pp-ztz" firstAttribute="width" secondItem="wCN-yp-vIJ" secondAttribute="width" id="zYj-DN-3vv"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rFX-OV-T9j" userLabel="FooterView">
@@ -586,15 +610,23 @@
                                 <rect key="frame" x="0.0" y="8" width="1024" height="72"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device: xxxx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmi-Lj-Hn9">
-                                        <rect key="frame" x="8" y="22" width="1008" height="28"/>
+                                        <rect key="frame" x="8" y="22" width="161.5" height="28"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery:  100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8S-fY-LDH">
+                                        <rect key="frame" x="854.5" y="22" width="161.5" height="28"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="lmi-Lj-Hn9" secondAttribute="trailing" constant="8" id="Ksa-ce-WJr"/>
+                                    <constraint firstAttribute="trailing" secondItem="X8S-fY-LDH" secondAttribute="trailing" constant="8" id="4uv-Me-NbQ"/>
+                                    <constraint firstItem="X8S-fY-LDH" firstAttribute="centerY" secondItem="03R-xT-U73" secondAttribute="centerY" id="FXO-1c-s40"/>
                                     <constraint firstAttribute="height" constant="72" id="RMh-LD-vbp"/>
+                                    <constraint firstItem="X8S-fY-LDH" firstAttribute="width" secondItem="lmi-Lj-Hn9" secondAttribute="width" id="T8U-s6-Yf5"/>
                                     <constraint firstItem="lmi-Lj-Hn9" firstAttribute="centerY" secondItem="03R-xT-U73" secondAttribute="centerY" id="eDx-LK-xwN"/>
                                     <constraint firstItem="lmi-Lj-Hn9" firstAttribute="leading" secondItem="03R-xT-U73" secondAttribute="leading" constant="8" id="za9-vu-oD8"/>
                                 </constraints>
