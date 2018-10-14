@@ -47,8 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set("rtsp://admin:admin@192.168.100.1/cam1/h264", forKey: "MediaURL")
             // defaults.set("rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov", forKey: "MediaURL")
         }
-        // settings.mediaUrl = defaults.string(forKey: "MediaURL")!
-        settings.mediaUrl = "rtsp://admin:admin@192.168.100.1/cam1/h264"
+        settings.mediaUrl = defaults.string(forKey: "MediaURL")!
+        //settings.mediaUrl = "rtsp://admin:admin@192.168.100.1/cam1/h264"
 
         // Device ID
         settings.deviceID = getDeviceID()
