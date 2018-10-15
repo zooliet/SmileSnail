@@ -9,22 +9,34 @@
 import UIKit
 
 class IntroViewController: UIViewController {
+    @IBOutlet weak var deviceLabel: UILabel!
+    @IBOutlet weak var batteryLabel: UILabel!
 
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var chartButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var lightOnButton: UIButton!
 
-    @IBOutlet weak var deviceLabel: UILabel!
-
-    let defaults = UserDefaults.standard
     let settings = Settings.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configButtonsStyle()
-        updateDeviceInfo()        
+        updateDeviceInfo()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,20 +48,42 @@ class IntroViewController: UIViewController {
             button?.layer.cornerRadius = 10.0
             button?.layer.borderWidth = 5
             button?.layer.borderColor = UIColor.white.cgColor
+            button?.layer.backgroundColor = UIColor.black.cgColor
+            button?.setTitleColor(UIColor.white, for: .normal)
         }
     }
 
-    func updateDeviceInfo() {
-        // getDeviceInfo()
-        deviceLabel.text = "Device: \(Settings.shared.deviceID)"
+    @objc func updateDeviceInfo() {
+        // print("Received notification")
+        let settings = Settings.shared
+
+        DispatchQueue.main.async {
+            let deviceID = settings.deviceID!
+            let batteryLevel = settings.batteryLevel!
+
+            if deviceID == "" {
+                self.deviceLabel.text = "Not connected"
+                self.batteryLabel.text = ""
+            } else {
+                self.deviceLabel.text = "Device: \(deviceID)"
+                self.batteryLabel.text = "Battery: \(batteryLevel)%"
+            }
+            self.deviceLabel.setNeedsDisplay()
+            self.batteryLabel.setNeedsDisplay()
+        }
     }
 
     @IBAction func toggleLight(_ sender: UIButton) {
         if lightOnButton.currentTitle! == "Light On" {
             lightOnButton.setTitle("Light Off", for: .normal)
+            lightOnButton.layer.backgroundColor = UIColor.white.cgColor
+            lightOnButton.setTitleColor(UIColor.black, for: .normal)
             turnLight(on: true)
+
         } else {
             lightOnButton.setTitle("Light On", for: .normal)
+            lightOnButton.layer.backgroundColor = UIColor.black.cgColor
+            lightOnButton.setTitleColor(UIColor.white, for: .normal)
             turnLight(on: false)
         }
     }

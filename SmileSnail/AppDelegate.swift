@@ -7,64 +7,20 @@
 //
 
 import UIKit
-import SwiftSocket
+import CocoaAsyncSocket
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate {
 
     var window: UIWindow?
     var statusTimer: Timer?
+    var keepAlive: Int = 3
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
-        initSettings()
+        initializeApplication()
         return true
     }
-
-    func initSettings() {
-        let defaults = UserDefaults.standard
-        let settings = Settings.shared
-
-        // Light
-        defaults.set(false, forKey: "Light")
-        settings.light = false
-
-        // Light Level
-        if defaults.object(forKey: "LightLevel") == nil {
-            defaults.set(50, forKey: "LightLevel")
-        }
-        settings.lightLevel = defaults.integer(forKey: "LightLevel")
-
-        // SSID
-        if defaults.object(forKey: "SSID") == nil {
-            defaults.set("entlab", forKey: "SSID")
-        }
-        settings.ssid = defaults.string(forKey: "SSID")!
-
-        // MediaURL
-        if defaults.object(forKey: "MediaURL") == nil {
-            defaults.set("rtsp://admin:admin@192.168.100.1/cam1/h264", forKey: "MediaURL")
-            // defaults.set("rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov", forKey: "MediaURL")
-        }
-        settings.mediaUrl = defaults.string(forKey: "MediaURL")!
-        //settings.mediaUrl = "rtsp://admin:admin@192.168.100.1/cam1/h264"
-
-        // Device ID
-        settings.deviceID = getDeviceID()
-
-        // Battery
-        settings.batteryStatus = getBatteryStatus()
-
-        // Patient Name
-        if defaults.object(forKey: "PatientName") == nil {
-            defaults.set("NONAME", forKey: "PatientName")
-        }
-        settings.patientName = defaults.string(forKey: "PatientName")!
-        settings.udpClient = UDPClient(address: "192.168.100.1", port: 1008)
-        // print("Connected to host \(udpClient.address):\(udpClient.port)")
-    }
-
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -86,9 +42,142 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        Settings.shared.udpClient?.close()
+        closeApplication()
     }
 
+    func initializeApplication() {
+        let defaults = UserDefaults.standard
+        let settings = Settings.shared
 
+        settings.light = false // On startup, turn off the light
+        settings.lightLevel = (defaults.object(forKey: "LightLevel") ?? 20) as! Int
+        settings.ssid = defaults.string(forKey: "SSID") ?? "entlab"
+        settings.mediaUrl = defaults.string(forKey: "MediaURL") ?? "rtsp://admin:admin@192.168.100.1/cam1/h264"
+        // settings.mediaUrl = "rtsp://admin:admin@192.168.100.1/cam1/h264"
+        settings.patientName = defaults.string(forKey: "PatientName") ?? "NONAME"
 
+        settings.deviceID = ""
+        settings.batteryLevel = 99
+        settings.snapshotReq = false
+        // settings.socket =  GCDAsyncUdpSocket.init(delegate: self, delegateQueue: DispatchQueue.global(qos: .userInitiated), socketQueue: DispatchQueue.main)
+        settings.socket =  GCDAsyncUdpSocket.init(delegate: self, delegateQueue: DispatchQueue.main, socketQueue: DispatchQueue.main)
+
+        makeSocketConnection()
+        startTimer()
+    }
+
+    func closeApplication() {
+        let defaults = UserDefaults.standard
+        let settings = Settings.shared
+
+        defaults.set(settings.lightLevel!, forKey: "LightLevel")
+        defaults.set(settings.ssid!, forKey: "SSID")
+        defaults.set(settings.mediaUrl!, forKey: "MediaURL")
+        defaults.set(settings.patientName!, forKey: "PatientName")
+
+        settings.socket?.close()
+        stopTimer()
+    }
+
+    func makeSocketConnection() {
+        let socket = Settings.shared.socket
+
+        do {
+            // try socket?.connect(toHost: "192.168.0.26", onPort: 1008)
+            try socket?.connect(toHost: "192.168.100.1", onPort: 1008)
+            try socket?.beginReceiving()
+        } catch {
+            print("Error: Socket connection")
+        }
+    }
+
+    func startTimer() {
+        statusTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+    }
+
+    func stopTimer() {
+        statusTimer?.invalidate()
+        statusTimer = nil
+    }
+
+    @objc func runTimedCode() {
+        // print("Timer: \(Date())")
+        let settings = Settings.shared
+
+        if keepAlive == 0 {
+            keepAlive = 3  // 3번 연속 수신을 못하면 장치 연결 문제라고 판단
+            settings.socket?.close()
+            settings.deviceID = ""
+            sendNotification()
+        } else {
+            keepAlive = keepAlive - 1
+            makeStatusPolling()
+        }
+    }
+
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didConnectToAddress address: Data) {
+        // print("Connected")
+    }
+
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
+       // print("didSendDataWithTag")
+    }
+
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: Error?) {
+       // print("didNotSendDataWithTag")
+    }
+
+    func udpSocketDidClose(_ sock: GCDAsyncUdpSocket, withError error: Error?) {
+        print("Socket closed")
+        // let settings = Settings.shared
+        // settings.deviceID = ""
+        // sendNotification()
+
+        makeSocketConnection()
+    }
+
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
+        keepAlive = 3
+        var port: UInt16 = 0
+        var host: NSString? = nil
+
+        GCDAsyncUdpSocket.getHost(&host, port: &port, fromAddress: address)
+        // let str = String(decoding: data, as: UTF8.self) as NSString
+        // print("Received: \(str) from \(host!):\(port)")
+        let settings = Settings.shared
+
+        let batteryLevel = (data[4] - 48) * 10 + (data[5] - 48)
+        // print(data[4], data[5], batteryLevel)
+        settings.batteryLevel = Int(batteryLevel+1)
+        settings.snapshotReq = (data[6] == 49) && (data[7] == 49)
+
+        if settings.deviceID == "" {
+            settings.deviceID = getDeviceID()
+        }
+
+        sendNotification()
+    }
+
+    func sendNotification() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
+    }
+
+    func makeStatusPolling() {
+        let socket = Settings.shared.socket
+        // let data = "any string".data(using: .utf8)!
+
+        let settings = Settings.shared
+        let lightLevel = settings.lightLevel!
+        let light = settings.light!
+        var data = Data(hexString: "0155303030303030")!
+        //var data = Data(hexString: "303030303030")!
+
+        if (light && lightLevel > 0) {
+            let firstByte: UInt8 = UInt8(Int(lightLevel / 10) + 30)
+            let secondByte: UInt8 = UInt8(Int(lightLevel % 10) + 30)
+            data = Data(hexString: "0155\(firstByte)\(secondByte)30303030")!
+            //data = Data(hexString: "\(firstByte)\(secondByte)30303030")!
+        }
+        socket?.send(data, withTimeout: -1, tag: 0)
+    }
 }

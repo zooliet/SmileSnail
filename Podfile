@@ -11,7 +11,7 @@ target 'SmileSnail' do
   pod 'SwipeCellKit'
   pod 'ImageSlideshow'
   pod 'MobileVLCKit'
-  pod 'SwiftSocket'
+  # pod 'SwiftSocket'
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'CocoaAsyncSocket' 

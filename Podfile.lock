@@ -5,7 +5,6 @@ PODS:
     - ImageSlideshow/Core (= 1.7.0)
   - ImageSlideshow/Core (1.7.0)
   - MobileVLCKit (3.1.5)
-  - SwiftSocket (2.0.2)
   - SwiftyJSON (4.2.0)
   - SwipeCellKit (2.5.0)
 
@@ -14,7 +13,6 @@ DEPENDENCIES:
   - CocoaAsyncSocket
   - ImageSlideshow
   - MobileVLCKit
-  - SwiftSocket
   - SwiftyJSON
   - SwipeCellKit
 
@@ -24,7 +22,6 @@ SPEC REPOS:
     - CocoaAsyncSocket
     - ImageSlideshow
     - MobileVLCKit
-    - SwiftSocket
     - SwiftyJSON
     - SwipeCellKit
 
@@ -33,10 +30,9 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   ImageSlideshow: f8eec5e37a980f60923b585ff23b0e140fd24018
   MobileVLCKit: 4d44e56380d0ee41c76f9ec7015d3a4b62a963a3
-  SwiftSocket: 6f4c9c63fbc5c1d61188936bb3c599fd546f40ae
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
 
-PODFILE CHECKSUM: c4cf51912a63268cb210451f86d1978e5908d57e
+PODFILE CHECKSUM: 46fb32fc20ff7f2cbe967eff1bb60bbd8b33a943
 
 COCOAPODS: 1.5.3

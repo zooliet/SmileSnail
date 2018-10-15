@@ -10,6 +10,8 @@ import UIKit
 import SwipeCellKit
 
 class ChartViewController: UIViewController  {
+    @IBOutlet weak var deviceLabel: UILabel!
+    @IBOutlet weak var batteryLabel: UILabel!
 
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var lightOnButton: UIButton!
@@ -17,9 +19,7 @@ class ChartViewController: UIViewController  {
     @IBOutlet weak var settingsButton: UIButton!
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var deviceLabel: UILabel!
 
-    let defaults = UserDefaults.standard
     let settings = Settings.shared
 
     var patientList: [String: Int] = [String: Int]()
@@ -42,6 +42,7 @@ class ChartViewController: UIViewController  {
 
         let fm = FileManager.default
         let path = getDocumentsDirectory().path
+        print(path)
         let fileList = try! fm.contentsOfDirectory(atPath: path)
         for fileName in fileList {
             let patient = String(fileName.split(separator: "_")[0])
@@ -54,6 +55,20 @@ class ChartViewController: UIViewController  {
         // print("****\(patientList)")
         // print("***\(patientList.sorted(by: <))")
         patientListSorted = patientList.sorted(by: <)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,25 +92,46 @@ class ChartViewController: UIViewController  {
             button?.layer.cornerRadius = 10.0
             button?.layer.borderWidth = 5
             button?.layer.borderColor = UIColor.white.cgColor
+            button?.layer.backgroundColor = UIColor.black.cgColor
+            button?.setTitleColor(UIColor.white, for: .normal)
         }
 
-        chartButton.backgroundColor = UIColor.white
+        chartButton.layer.backgroundColor = UIColor.white.cgColor
         chartButton.setTitleColor(UIColor.black, for: .normal)
 
-        if defaults.bool(forKey: "Light") {
-            lightOnButton.backgroundColor = UIColor.white
+        if settings.light! {
+            lightOnButton.layer.backgroundColor = UIColor.white.cgColor
             lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            lightOnButton.setTitle("Light On", for: .normal)
-        } else {
-            lightOnButton.backgroundColor = UIColor.black
-            lightOnButton.setTitleColor(UIColor.white, for: .normal)
             lightOnButton.setTitle("Light Off", for: .normal)
+        } else {
+            lightOnButton.layer.backgroundColor = UIColor.black.cgColor
+            lightOnButton.setTitleColor(UIColor.white, for: .normal)
+            lightOnButton.setTitle("Light On", for: .normal)
         }
     }
 
-    func updateDeviceInfo() {
-        // getDeviceInfo()
-        deviceLabel.text = "Device: \(settings.deviceID)"
+    @objc func updateDeviceInfo() {
+        // print("Received notification")
+        let settings = Settings.shared
+        if settings.snapshotReq! {
+            print("Snapshot Requested")
+            settings.snapshotReq = false
+        }
+
+        DispatchQueue.main.async {
+            let deviceID = settings.deviceID!
+            let batteryLevel = settings.batteryLevel!
+
+            if deviceID == "" {
+                self.deviceLabel.text = "Not connected"
+                self.batteryLabel.text = ""
+            } else {
+                self.deviceLabel.text = "Device: \(deviceID)"
+                self.batteryLabel.text = "Battery: \(batteryLevel)%"
+            }
+            self.deviceLabel.setNeedsDisplay()
+            self.batteryLabel.setNeedsDisplay()
+        }
     }
 
     func turnOffLight() {
@@ -104,12 +140,16 @@ class ChartViewController: UIViewController  {
 
     @IBAction func toggleLightPressed(_ sender: Any) {
         if lightOnButton.currentTitle! == "Light On" {
-            // On to Off
             lightOnButton.setTitle("Light Off", for: .normal)
-            turnLight(on: false)
+            // lightOnButton.layer.backgroundColor = UIColor.white.cgColor
+            // lightOnButton.setTitleColor(UIColor.black, for: .normal)
+            turnLight(on: true)
+
         } else {
             lightOnButton.setTitle("Light On", for: .normal)
-            turnLight(on: true)
+            // lightOnButton.layer.backgroundColor = UIColor.black.cgColor
+            // lightOnButton.setTitleColor(UIColor.white, for: .normal)
+            turnLight(on: false)
         }
         configButtonsStyle()
     }
@@ -124,6 +164,7 @@ extension  ChartViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         // cell.delegate = self
         // cell.videoLabel.text = "\(String(format: "%03d", indexPath.row+1)). \(Date()) No Name" // messages[indexPath.row]
+        
         cell.textLabel?.text = patientListSorted[indexPath.row].key
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -132,8 +173,8 @@ extension  ChartViewController: UITableViewDataSource {
 
 extension ChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "gotoImages", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

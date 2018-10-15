@@ -7,11 +7,10 @@
 //
 
 import UIKit
-// import ChameleonFramework
-// import SwiftSocket
-// import CocoaAsyncSocket
 
 class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
+    @IBOutlet weak var deviceLabel: UILabel!
+    @IBOutlet weak var batteryLabel: UILabel!
 
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var lightOnButton: UIButton!
@@ -23,16 +22,11 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     @IBOutlet weak var lightLevelSlider: UISlider!
     @IBOutlet weak var snapshotButton: UIButton!
 
-    @IBOutlet weak var deviceLabel: UILabel!
-
-    let defaults = UserDefaults.standard
     let settings = Settings.shared
 
     var mediaPlayer: VLCMediaPlayer?
     var thumbnails: [String] = [String]()
 
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,24 +42,27 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         videoView.addGestureRecognizer(recognizer)
-        
-//        let udpClient = UdpSocketSR()
-//        udpClient.SetupAndSend()
-//        let bytes = [0x01, 0x55, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35]
-//        let data = NSData(bytes: bytes, length: bytes.count)
-//        tcpSocket.write(data as Data, withTimeout: 10, tag: 0)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
+        mediaPlayer?.stop()
+        mediaPlayer = nil
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-
-    override func viewWillDisappear(_ animated: Bool) {
-        mediaPlayer?.stop()
-        mediaPlayer = nil
-    }
-
 
     /*
     // MARK: - Navigation
@@ -82,19 +79,21 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
             button?.layer.cornerRadius = 10.0
             button?.layer.borderWidth = 5
             button?.layer.borderColor = UIColor.white.cgColor
+            button?.layer.backgroundColor = UIColor.black.cgColor
+            button?.setTitleColor(UIColor.white, for: .normal)
         }
 
-        cameraButton.backgroundColor = UIColor.white
+        cameraButton.layer.backgroundColor = UIColor.white.cgColor
         cameraButton.setTitleColor(UIColor.black, for: .normal)
 
-        if defaults.bool(forKey: "Light") {
-            lightOnButton.backgroundColor = UIColor.white
+        if settings.light! {
+            lightOnButton.layer.backgroundColor = UIColor.white.cgColor
             lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            lightOnButton.setTitle("Light On", for: .normal)
-        } else {
-            lightOnButton.backgroundColor = UIColor.black
-            lightOnButton.setTitleColor(UIColor.white, for: .normal)
             lightOnButton.setTitle("Light Off", for: .normal)
+        } else {
+            lightOnButton.layer.backgroundColor = UIColor.black.cgColor
+            lightOnButton.setTitleColor(UIColor.white, for: .normal)
+            lightOnButton.setTitle("Light On", for: .normal)
         }
     }
 
@@ -106,17 +105,36 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     func configLightLevelSlider() {
         lightLevelSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         let lightLevel = settings.lightLevel
-        lightLevelSlider.setValue(Float(lightLevel), animated: true)
+        lightLevelSlider.setValue(Float(lightLevel!), animated: true)
     }
 
-    func updateDeviceInfo() {
-        // getDeviceInfo()
-        deviceLabel.text = "Device: \(Settings.shared.deviceID)"
+    @objc func updateDeviceInfo() {
+        // print("Received notification")
+        let settings = Settings.shared
+        if settings.snapshotReq! {
+            print("Snapshot Requested")
+            settings.snapshotReq = false
+        }
+
+        DispatchQueue.main.async {
+            let deviceID = settings.deviceID!
+            let batteryLevel = settings.batteryLevel!
+
+            if deviceID == "" {
+                self.deviceLabel.text = "Not connected"
+                self.batteryLabel.text = ""
+            } else {
+                self.deviceLabel.text = "Device: \(deviceID)"
+                self.batteryLabel.text = "Battery: \(batteryLevel)%"
+            }
+            self.deviceLabel.setNeedsDisplay()
+            self.batteryLabel.setNeedsDisplay()
+        }
     }
 
     func setupMediaPlayer() {
         mediaPlayer = VLCMediaPlayer()
-        let url = URL(string: settings.mediaUrl)
+        let url = URL(string: settings.mediaUrl!)
         let media = VLCMedia(url: url!)
         media.addOptions([
             // "sout-rtp-proto": "tcp",
@@ -135,12 +153,16 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     @IBAction func toggleLightPressed(_ sender: Any) {
         if lightOnButton.currentTitle! == "Light On" {
-            // On to Off
             lightOnButton.setTitle("Light Off", for: .normal)
-            turnLight(on: false)
+            // lightOnButton.layer.backgroundColor = UIColor.white.cgColor
+            // lightOnButton.setTitleColor(UIColor.black, for: .normal)
+            turnLight(on: true)
+
         } else {
             lightOnButton.setTitle("Light On", for: .normal)
-            turnLight(on: true)
+            // lightOnButton.layer.backgroundColor = UIColor.black.cgColor
+            // lightOnButton.setTitleColor(UIColor.white, for: .normal)
+            turnLight(on: false)
         }
         configButtonsStyle()
     }
@@ -181,7 +203,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
             UIGraphicsEndImageContext();
             // print(snapshotImage!)
 
-            let patientName = settings.patientName
+            let patientName = settings.patientName!
             let date = Date()
             // let dateFormatter = DateFormatter()
             // dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
