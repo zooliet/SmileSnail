@@ -9,12 +9,16 @@
 import UIKit
 import CocoaAsyncSocket
 
+let KEEP_ALIVE_COUNT: Int = 3
+let POLLING_SEC: Double = 3.0
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate {
 
     var window: UIWindow?
     var statusTimer: Timer?
-    var keepAlive: Int = 3
+
+    var keepAlive: Int = KEEP_ALIVE_COUNT
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -50,7 +54,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
         let settings = Settings.shared
 
         settings.light = false // On startup, turn off the light
-        settings.lightLevel = (defaults.object(forKey: "LightLevel") ?? 20) as! Int
+        if defaults.object(forKey: "LightLevel") == nil {
+            settings.lightLevel = 20
+        } else {
+            settings.lightLevel = defaults.object(forKey: "LightLevel") as? Int
+        }
+
         settings.ssid = defaults.string(forKey: "SSID") ?? "entlab"
         settings.mediaUrl = defaults.string(forKey: "MediaURL") ?? "rtsp://admin:admin@192.168.100.1/cam1/h264"
         // settings.mediaUrl = "rtsp://admin:admin@192.168.100.1/cam1/h264"
@@ -92,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
     }
 
     func startTimer() {
-        statusTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+        statusTimer = Timer.scheduledTimer(timeInterval: POLLING_SEC, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
 
     func stopTimer() {
@@ -105,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
         let settings = Settings.shared
 
         if keepAlive == 0 {
-            keepAlive = 3  // 3번 연속 수신을 못하면 장치 연결 문제라고 판단
+            keepAlive = KEEP_ALIVE_COUNT  // 3번 연속 수신을 못하면 장치 연결 문제라고 판단
             settings.socket?.close()
             settings.deviceID = ""
             sendNotification()
@@ -137,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
     }
 
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
-        keepAlive = 3
+        keepAlive = KEEP_ALIVE_COUNT
         var port: UInt16 = 0
         var host: NSString? = nil
 

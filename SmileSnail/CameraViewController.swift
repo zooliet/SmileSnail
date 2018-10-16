@@ -112,7 +112,8 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         // print("Received notification")
         let settings = Settings.shared
         if settings.snapshotReq! {
-            print("Snapshot Requested")
+            // print("Snapshot Requested")
+            makeSnapshot()
             settings.snapshotReq = false
         }
 
@@ -181,44 +182,9 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     @IBAction func snapshotPressed(_ sender: Any) {
         // mediaPlayer?.saveVideoSnapshot(at: ".", withWidth: 320, andHeight: 240)
         // print(mediaPlayer?.snapshots)
-        if mediaPlayer == nil { return }
 
-        if let player = mediaPlayer?.drawable as? UIView? {
-            let size = player?.frame.size
-            // let size = CGSize(width: 614.5, height: 461.0)
-            print(size!)
-
-            UIGraphicsBeginImageContext(size!)
-            // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
-            var rec = player?.frame
-            print(rec!.origin.x, rec!.origin.y)
-            let x = -rec!.origin.x
-            let y = -rec!.origin.y
-            let width = rec!.width + rec!.origin.x
-            let height = rec!.height + rec!.origin.y
-
-            rec = CGRect(x: x, y: y, width: width, height: height)
-            player?.drawHierarchy(in: rec!, afterScreenUpdates: false)
-            let snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            // print(snapshotImage!)
-
-            let patientName = settings.patientName!
-            let date = Date()
-            // let dateFormatter = DateFormatter()
-            // dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            // let date = dateFormatter.string(from: Date())
-            let imageName = "\(patientName)_\(date).jpg"
-            let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
-
-            if let jpegData = snapshotImage?.jpegData(compressionQuality: 100) {
-                try? jpegData.write(to: imagePath)
-            }
-
-            thumbnails.insert(imagePath.path, at: 0)
-            let indexPath = IndexPath(item: 0, section: 0)
-            thumbnailsView.insertItems(at: [indexPath])
-        }
+        // performSelector(inBackground: #selector(makeSnapshot), with: nil)
+        makeSnapshot()
 //
 //        if let player = mediaPlayer?.drawable as? UIView? {
 //            let size = player?.frame.size
@@ -247,7 +213,46 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 //        }
     }
 
+    @objc func makeSnapshot() {
+      if mediaPlayer == nil { return }
 
+      if let player = mediaPlayer?.drawable as? UIView? {
+          let size = player?.frame.size
+          // let size = CGSize(width: 614.5, height: 461.0)
+          print(size!)
+
+          UIGraphicsBeginImageContext(size!)
+          // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
+          var rec = player?.frame
+          print(rec!.origin.x, rec!.origin.y)
+          let x = -rec!.origin.x
+          let y = -rec!.origin.y
+          let width = rec!.width + rec!.origin.x
+          let height = rec!.height + rec!.origin.y
+
+          rec = CGRect(x: x, y: y, width: width, height: height)
+          player?.drawHierarchy(in: rec!, afterScreenUpdates: false)
+          let snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+          UIGraphicsEndImageContext();
+          // print(snapshotImage!)
+
+          let patientName = settings.patientName!
+          let date = Date()
+          // let dateFormatter = DateFormatter()
+          // dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+          // let date = dateFormatter.string(from: Date())
+          let imageName = "\(patientName)_\(date).jpg"
+          let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+
+          if let jpegData = snapshotImage?.jpegData(compressionQuality: 100) {
+              try? jpegData.write(to: imagePath)
+          }
+
+          thumbnails.insert(imagePath.path, at: 0)
+          let indexPath = IndexPath(item: 0, section: 0)
+          thumbnailsView.insertItems(at: [indexPath])
+      }
+    }
 
     @objc func didTap() {
         if mediaPlayer == nil {
