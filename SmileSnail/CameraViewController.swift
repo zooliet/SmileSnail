@@ -185,32 +185,6 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
         // performSelector(inBackground: #selector(makeSnapshot), with: nil)
         makeSnapshot()
-//
-//        if let player = mediaPlayer?.drawable as? UIView? {
-//            let size = player?.frame.size
-//            // print(size!)
-//
-//            UIGraphicsBeginImageContext(size!)
-//            // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
-//            let rec = player?.frame
-//            player?.drawHierarchy(in: rec!, afterScreenUpdates: false)
-//            let snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
-//            UIGraphicsEndImageContext();
-//            // print(snapshotImage!)
-//
-//            settings.patientName = "Anna Kim"
-//            let patientName = settings.patientName
-//            let imageName = "\(patientName)_\(Date()).jpg"
-//            let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
-//
-//            if let jpegData = snapshotImage?.jpegData(compressionQuality: 80) {
-//                try? jpegData.write(to: imagePath)
-//            }
-//
-//            thumbnails.insert(imagePath.path, at: 0)
-//            let indexPath = IndexPath(item: 0, section: 0)
-//            thumbnailsView.insertItems(at: [indexPath])
-//        }
     }
 
     @objc func makeSnapshot() {
@@ -225,8 +199,8 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
           // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
           var rec = player?.frame
           print(rec!.origin.x, rec!.origin.y)
-          let x = -rec!.origin.x
-          let y = -rec!.origin.y
+          let x = CGFloat(0.0) // -rec!.origin.x
+          let y = CGFloat(0.0) // -rec!.origin.y
           let width = rec!.width + rec!.origin.x
           let height = rec!.height + rec!.origin.y
 
@@ -243,6 +217,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
           // let date = dateFormatter.string(from: Date())
           let imageName = "\(patientName)_\(date).jpg"
           let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+          print(imagePath)
 
           if let jpegData = snapshotImage?.jpegData(compressionQuality: 100) {
               try? jpegData.write(to: imagePath)
@@ -252,6 +227,32 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
           let indexPath = IndexPath(item: 0, section: 0)
           thumbnailsView.insertItems(at: [indexPath])
       }
+       //
+       // if let player = mediaPlayer?.drawable as? UIView? {
+       //     let size = player?.frame.size
+       //     // print(size!)
+       //
+       //     UIGraphicsBeginImageContext(size!)
+       //     // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
+       //     let rec = player?.frame
+       //     player?.drawHierarchy(in: rec!, afterScreenUpdates: false)
+       //     let snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+       //     UIGraphicsEndImageContext();
+       //     // print(snapshotImage!)
+       //
+       //     settings.patientName = "Anna Kim"
+       //     let patientName = settings.patientName
+       //     let imageName = "\(patientName)_\(Date()).jpg"
+       //     let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+       //
+       //     if let jpegData = snapshotImage?.jpegData(compressionQuality: 80) {
+       //         try? jpegData.write(to: imagePath)
+       //     }
+       //
+       //     thumbnails.insert(imagePath.path, at: 0)
+       //     let indexPath = IndexPath(item: 0, section: 0)
+       //     thumbnailsView.insertItems(at: [indexPath])
+       // }
     }
 
     @objc func didTap() {
