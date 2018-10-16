@@ -523,6 +523,9 @@
                                                 <state key="normal" title="Settings">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <segue destination="ywL-eD-45F" kind="show" id="jLd-aH-zY5"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -607,10 +610,10 @@
             </objects>
             <point key="canvasLocation" x="250" y="-664"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="Ja8-5j-vmG">
             <objects>
-                <viewController id="ywL-eD-45F" sceneMemberID="viewController">
+                <viewController id="ywL-eD-45F" customClass="SettingsViewController" customModule="SmileSnail" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="77W-U1-5yl">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -618,14 +621,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="03R-xT-U73" userLabel="HeaderView">
                                 <rect key="frame" x="0.0" y="8" width="1024" height="72"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device: xxxx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmi-Lj-Hn9">
-                                        <rect key="frame" x="8" y="22" width="161.5" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmi-Lj-Hn9">
+                                        <rect key="frame" x="8" y="36" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery:  100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8S-fY-LDH">
-                                        <rect key="frame" x="854.5" y="22" width="161.5" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8S-fY-LDH">
+                                        <rect key="frame" x="1016" y="36" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -674,6 +677,9 @@
                                                 <state key="normal" title="Light Off">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="toggleLightPressed:" destination="ywL-eD-45F" eventType="touchUpInside" id="5st-p4-KHs"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HvK-wc-s1V">
                                                 <rect key="frame" x="0.0" y="228" width="232" height="84"/>
@@ -684,6 +690,9 @@
                                                 <state key="normal" title="Chart">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <segue destination="VII-Gb-aOY" kind="show" id="xug-S7-J4r"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrc-Qe-k0M">
                                                 <rect key="frame" x="0.0" y="342" width="232" height="84"/>
@@ -708,35 +717,44 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RIl-XH-8uT" userLabel="MainView">
                                 <rect key="frame" x="256" y="80" width="768" height="616"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Patient Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yr-Jg-uMD">
-                                        <rect key="frame" x="41" y="12" width="122" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OzR-m2-KLz">
+                                        <rect key="frame" x="60" y="117.5" width="537.5" height="42"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="32"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SSID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vMz-Mo-MyT">
+                                        <rect key="frame" x="60" y="195.5" width="45.5" height="23.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OzR-m2-KLz">
-                                        <rect key="frame" x="41" y="44" width="604" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VDH-Th-4at">
+                                        <rect key="frame" x="60" y="227" width="537.5" height="42"/>
                                         <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="36"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="32"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SSID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vMz-Mo-MyT">
-                                        <rect key="frame" x="41" y="98" width="46" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Patient Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yr-Jg-uMD">
+                                        <rect key="frame" x="60" y="86" width="121.5" height="23.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VDH-Th-4at">
-                                        <rect key="frame" x="41" y="130" width="604" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="36"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="vMz-Mo-MyT" firstAttribute="leading" secondItem="RIl-XH-8uT" secondAttribute="leading" constant="60" id="3ch-Oa-saK"/>
+                                    <constraint firstItem="1yr-Jg-uMD" firstAttribute="leading" secondItem="RIl-XH-8uT" secondAttribute="leading" constant="60" id="K7d-Ln-Iek"/>
+                                    <constraint firstItem="1yr-Jg-uMD" firstAttribute="top" secondItem="RIl-XH-8uT" secondAttribute="top" constant="86" id="KzT-Z0-94p"/>
+                                    <constraint firstItem="vMz-Mo-MyT" firstAttribute="top" secondItem="OzR-m2-KLz" secondAttribute="bottom" constant="36" id="Lch-GP-gaQ"/>
+                                    <constraint firstItem="VDH-Th-4at" firstAttribute="height" secondItem="OzR-m2-KLz" secondAttribute="height" id="MGt-9W-Jtv"/>
+                                    <constraint firstItem="OzR-m2-KLz" firstAttribute="width" secondItem="RIl-XH-8uT" secondAttribute="width" multiplier="0.7" id="Ms7-yG-SJU"/>
+                                    <constraint firstItem="VDH-Th-4at" firstAttribute="leading" secondItem="RIl-XH-8uT" secondAttribute="leading" constant="60" id="Ndo-iW-wAY"/>
+                                    <constraint firstItem="VDH-Th-4at" firstAttribute="top" secondItem="vMz-Mo-MyT" secondAttribute="bottom" constant="8" id="b4x-RO-V2R"/>
+                                    <constraint firstItem="VDH-Th-4at" firstAttribute="width" secondItem="OzR-m2-KLz" secondAttribute="width" id="bu5-3p-eDH"/>
+                                    <constraint firstItem="OzR-m2-KLz" firstAttribute="leading" secondItem="RIl-XH-8uT" secondAttribute="leading" constant="60" id="gfx-mt-MiY"/>
+                                    <constraint firstItem="OzR-m2-KLz" firstAttribute="top" secondItem="1yr-Jg-uMD" secondAttribute="bottom" constant="8" id="i6d-Ek-mRK"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
@@ -758,10 +776,20 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SFv-GM-OSE"/>
                     </view>
+                    <connections>
+                        <outlet property="batteryLabel" destination="X8S-fY-LDH" id="x9s-dM-8mg"/>
+                        <outlet property="cameraButton" destination="C1S-I8-SFV" id="2u6-9j-x9c"/>
+                        <outlet property="chartButton" destination="HvK-wc-s1V" id="ZUp-oC-4Gi"/>
+                        <outlet property="deviceLabel" destination="lmi-Lj-Hn9" id="HAf-tM-z78"/>
+                        <outlet property="lightOnButton" destination="OYd-LA-Bn7" id="hZX-8a-2vT"/>
+                        <outlet property="patientNameTextField" destination="OzR-m2-KLz" id="Spm-Hg-kLZ"/>
+                        <outlet property="settingsButton" destination="nrc-Qe-k0M" id="caI-tE-ldm"/>
+                        <outlet property="ssidTextField" destination="VDH-Th-4at" id="YVn-CT-3v7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lOj-fg-XC8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="135" y="63"/>
+            <point key="canvasLocation" x="-96" y="70"/>
         </scene>
     </scenes>
     <resources>
@@ -769,8 +797,8 @@
         <image name="img1" width="540" height="360"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RkS-3U-ol9"/>
-        <segue reference="x5M-3j-MZC"/>
-        <segue reference="LRC-s3-cDq"/>
+        <segue reference="jLd-aH-zY5"/>
+        <segue reference="xug-S7-J4r"/>
+        <segue reference="DXm-Cn-ylx"/>
     </inferredMetricsTieBreakers>
 </document>
