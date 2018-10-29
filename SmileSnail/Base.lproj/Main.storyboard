@@ -28,7 +28,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zu1-65-UPG">
-                                        <rect key="frame" x="1016" y="36" width="0.0" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="36" width="1016" height="0.0"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -36,7 +36,8 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="v8f-gr-9NY" firstAttribute="centerY" secondItem="SKn-LK-6tp" secondAttribute="centerY" id="411-QU-zp8"/>
-                                    <constraint firstItem="zu1-65-UPG" firstAttribute="width" secondItem="v8f-gr-9NY" secondAttribute="width" id="fbt-Ip-Sex"/>
+                                    <constraint firstItem="zu1-65-UPG" firstAttribute="leading" secondItem="SKn-LK-6tp" secondAttribute="leading" id="5TN-0b-Dhu"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="v8f-gr-9NY" secondAttribute="trailing" id="PAR-3s-BRK"/>
                                     <constraint firstAttribute="trailing" secondItem="zu1-65-UPG" secondAttribute="trailing" constant="8" id="gDO-vm-lIB"/>
                                     <constraint firstItem="v8f-gr-9NY" firstAttribute="leading" secondItem="SKn-LK-6tp" secondAttribute="leading" constant="8" id="vOP-ba-uro"/>
                                     <constraint firstAttribute="height" constant="72" id="wAK-Gz-D2O"/>
@@ -201,9 +202,10 @@
                                 <constraints>
                                     <constraint firstItem="cw1-Cs-hiz" firstAttribute="centerY" secondItem="qpx-ha-J5k" secondAttribute="centerY" id="1Hj-l3-TjG"/>
                                     <constraint firstItem="PiX-sG-cRh" firstAttribute="centerY" secondItem="qpx-ha-J5k" secondAttribute="centerY" id="2H6-UJ-0PO"/>
+                                    <constraint firstItem="cw1-Cs-hiz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qpx-ha-J5k" secondAttribute="leading" id="9fX-Cd-9z9"/>
                                     <constraint firstAttribute="trailing" secondItem="cw1-Cs-hiz" secondAttribute="trailing" constant="8" id="AB5-Qg-Hei"/>
                                     <constraint firstAttribute="height" constant="72" id="NDg-ub-pZn"/>
-                                    <constraint firstItem="cw1-Cs-hiz" firstAttribute="width" secondItem="PiX-sG-cRh" secondAttribute="width" id="qoN-BZ-Naq"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PiX-sG-cRh" secondAttribute="trailing" id="h3u-CX-Cp7"/>
                                     <constraint firstItem="PiX-sG-cRh" firstAttribute="leading" secondItem="qpx-ha-J5k" secondAttribute="leading" constant="8" id="zVS-QM-war"/>
                                 </constraints>
                             </view>
@@ -463,8 +465,9 @@
                                     <constraint firstItem="zW9-Pp-ztz" firstAttribute="centerY" secondItem="ec9-tA-IdP" secondAttribute="centerY" id="L8y-Ur-qq6"/>
                                     <constraint firstItem="wCN-yp-vIJ" firstAttribute="leading" secondItem="ec9-tA-IdP" secondAttribute="leading" constant="8" id="OXV-8Q-HOE"/>
                                     <constraint firstItem="wCN-yp-vIJ" firstAttribute="centerY" secondItem="ec9-tA-IdP" secondAttribute="centerY" id="auw-dP-4CG"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wCN-yp-vIJ" secondAttribute="trailing" id="dcG-iG-aI0"/>
                                     <constraint firstAttribute="trailing" secondItem="zW9-Pp-ztz" secondAttribute="trailing" constant="8" id="eMz-dw-7yQ"/>
-                                    <constraint firstItem="zW9-Pp-ztz" firstAttribute="width" secondItem="wCN-yp-vIJ" secondAttribute="width" id="zYj-DN-3vv"/>
+                                    <constraint firstItem="zW9-Pp-ztz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ec9-tA-IdP" secondAttribute="leading" id="p4x-WK-eqR"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rFX-OV-T9j" userLabel="FooterView">
@@ -637,10 +640,11 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="X8S-fY-LDH" secondAttribute="trailing" constant="8" id="4uv-Me-NbQ"/>
+                                    <constraint firstItem="X8S-fY-LDH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="03R-xT-U73" secondAttribute="leading" id="FQr-KH-EeJ"/>
                                     <constraint firstItem="X8S-fY-LDH" firstAttribute="centerY" secondItem="03R-xT-U73" secondAttribute="centerY" id="FXO-1c-s40"/>
                                     <constraint firstAttribute="height" constant="72" id="RMh-LD-vbp"/>
-                                    <constraint firstItem="X8S-fY-LDH" firstAttribute="width" secondItem="lmi-Lj-Hn9" secondAttribute="width" id="T8U-s6-Yf5"/>
                                     <constraint firstItem="lmi-Lj-Hn9" firstAttribute="centerY" secondItem="03R-xT-U73" secondAttribute="centerY" id="eDx-LK-xwN"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lmi-Lj-Hn9" secondAttribute="trailing" id="o8G-ev-1aX"/>
                                     <constraint firstItem="lmi-Lj-Hn9" firstAttribute="leading" secondItem="03R-xT-U73" secondAttribute="leading" constant="8" id="za9-vu-oD8"/>
                                 </constraints>
                             </view>
