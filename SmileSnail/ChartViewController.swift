@@ -138,6 +138,31 @@ class ChartViewController: UIViewController  {
         turnLight(on: false)
     }
 
+    @IBAction func menuTapped(_ sender: UIButton) {
+        // print(sender.currentTitle!)
+        var destinationClassType: AnyClass?
+        var destinationClassIdentifier: String?
+
+        if sender.currentTitle == "Camera" {
+            destinationClassType = CameraViewController.self
+            destinationClassIdentifier = "CameraVC"
+        } else if sender.currentTitle == "Settings" {
+            destinationClassType = SettingsViewController.self
+            destinationClassIdentifier = "SettingsVC"
+        }
+
+        if let viewControllers = self.navigationController?.viewControllers {
+            for viewController in viewControllers {
+                if viewController.isKind(of: destinationClassType!) {
+                    self.navigationController?.popToViewController(viewController, animated: true)
+                    return
+                }
+            }
+        }
+        let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: destinationClassIdentifier!)
+        self.navigationController?.pushViewController(destinationVC!, animated: true)
+    }
+
     @IBAction func toggleLightPressed(_ sender: Any) {
         if lightOnButton.currentTitle! == "Light On" {
             lightOnButton.setTitle("Light Off", for: .normal)
@@ -164,7 +189,7 @@ extension  ChartViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         // cell.delegate = self
         // cell.videoLabel.text = "\(String(format: "%03d", indexPath.row+1)). \(Date()) No Name" // messages[indexPath.row]
-        
+
         cell.textLabel?.text = patientListSorted[indexPath.row].key
         cell.accessoryType = .disclosureIndicator
         return cell

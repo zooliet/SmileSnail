@@ -152,6 +152,32 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer?.play()
     }
 
+    @IBAction func menuTapped(_ sender: UIButton) {
+        // print(sender.currentTitle!)
+        var destinationClassType: AnyClass?
+        var destinationClassIdentifier: String?
+
+        if sender.currentTitle == "Chart" {
+            destinationClassType = ChartViewController.self
+            destinationClassIdentifier = "ChartVC"
+        } else if sender.currentTitle == "Settings" {
+            destinationClassType = SettingsViewController.self
+            destinationClassIdentifier = "SettingsVC"
+        }
+
+        if let viewControllers = self.navigationController?.viewControllers {
+            for viewController in viewControllers {
+                if viewController.isKind(of: destinationClassType!) {
+                    self.navigationController?.popToViewController(viewController, animated: true)
+                    return
+                }
+            }
+        }
+        let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: destinationClassIdentifier!)
+        self.navigationController?.pushViewController(destinationVC!, animated: true)
+    }
+
+
     @IBAction func toggleLightPressed(_ sender: Any) {
         if lightOnButton.currentTitle! == "Light On" {
             lightOnButton.setTitle("Light Off", for: .normal)

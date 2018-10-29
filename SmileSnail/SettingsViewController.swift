@@ -115,6 +115,33 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    @IBAction func menuTapped(_ sender: UIButton) {
+        // print(sender.currentTitle!)
+        var destinationClassType: AnyClass?
+        var destinationClassIdentifier: String?
+
+        if sender.currentTitle == "Camera" {
+            destinationClassType = CameraViewController.self
+            destinationClassIdentifier = "CameraVC"
+        } else if sender.currentTitle == "Chart" {
+            destinationClassType = ChartViewController.self
+            destinationClassIdentifier = "ChartVC"
+        }
+
+        if let viewControllers = self.navigationController?.viewControllers {
+            for viewController in viewControllers {
+                if viewController.isKind(of: destinationClassType!) {
+                    self.navigationController?.popToViewController(viewController, animated: true)
+                    return
+                }
+            }
+        }
+        let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: destinationClassIdentifier!)
+        self.navigationController?.pushViewController(destinationVC!, animated: true)
+    }
+
+
+
     func turnOffLight() {
         turnLight(on: false)
     }
