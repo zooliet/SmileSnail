@@ -30,13 +30,6 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configButtonsStyle()
-        configVideoViewStyle()
-        configLightLevelSlider()
-        updateDeviceInfo()
-
-        setupMediaPlayer()
-
         thumbnailsView.dataSource = self
         thumbnailsView.delegate = self
 
@@ -46,6 +39,13 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupMediaPlayer()
+
+        configButtonsStyle()
+        configVideoViewStyle()
+        configLightLevelSlider()
+        updateDeviceInfo()
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
 

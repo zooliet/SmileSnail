@@ -28,11 +28,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         patientNameTextField.delegate = self
         ssidTextField.delegate = self
 
-        // Do any additional setup after loading the view.
-        configButtonsStyle()
-        updateDeviceInfo()
-        // turnOffLight()
-
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
         view.addGestureRecognizer(tapGesture)
 
@@ -40,6 +35,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configButtonsStyle()
+        updateDeviceInfo()
+        // turnOffLight()
         NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
 

@@ -403,9 +403,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UrN-jO-oLP">
-                                <rect key="frame" x="435" y="708" width="154" height="40"/>
+                                <rect key="frame" x="441" y="708" width="142" height="40"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
-                                <state key="normal" title="back to charts">
+                                <state key="normal" title="back to chart">
                                     <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
                                 </state>
                                 <connections>
@@ -416,15 +416,43 @@
                                 <rect key="frame" x="102.5" y="153.5" width="819" height="461"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3rW-p6-h3H">
+                                <rect key="frame" x="871.5" y="715" width="50" height="33"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="delete">
+                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteButtonPressed:" destination="N4g-bc-ZxV" eventType="touchUpInside" id="7Zy-hh-ZBZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ed-AT-0ZM">
+                                <rect key="frame" x="102.5" y="715" width="45" height="33"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="share">
+                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="shareButtonPressed:" destination="N4g-bc-ZxV" eventType="touchUpInside" id="KA4-Q7-JJc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Rv7-ch-4Zl" firstAttribute="centerY" secondItem="d1s-RT-EfV" secondAttribute="centerY" id="0rZ-7B-xed"/>
                             <constraint firstItem="Rv7-ch-4Zl" firstAttribute="height" secondItem="d1s-RT-EfV" secondAttribute="width" multiplier="0.45" id="1s8-CO-dX7"/>
+                            <constraint firstItem="3rW-p6-h3H" firstAttribute="trailing" secondItem="Rv7-ch-4Zl" secondAttribute="trailing" id="Eff-gj-etr"/>
+                            <constraint firstItem="0ed-AT-0ZM" firstAttribute="leading" secondItem="Rv7-ch-4Zl" secondAttribute="leading" id="GeO-rF-GLS"/>
                             <constraint firstItem="UrN-jO-oLP" firstAttribute="centerX" secondItem="d1s-RT-EfV" secondAttribute="centerX" id="InZ-DP-SXN"/>
+                            <constraint firstItem="ti7-BS-oFh" firstAttribute="bottom" secondItem="3rW-p6-h3H" secondAttribute="bottom" constant="20" id="UmX-5c-jat"/>
                             <constraint firstItem="Rv7-ch-4Zl" firstAttribute="centerX" secondItem="d1s-RT-EfV" secondAttribute="centerX" id="cU0-jc-Wh8"/>
+                            <constraint firstItem="3rW-p6-h3H" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UrN-jO-oLP" secondAttribute="trailing" id="fKp-7n-MDG"/>
+                            <constraint firstItem="UrN-jO-oLP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0ed-AT-0ZM" secondAttribute="trailing" id="ga5-KM-HRB"/>
                             <constraint firstItem="ti7-BS-oFh" firstAttribute="bottom" secondItem="UrN-jO-oLP" secondAttribute="bottom" constant="20" id="geR-Ad-c9c"/>
                             <constraint firstItem="Rv7-ch-4Zl" firstAttribute="width" secondItem="d1s-RT-EfV" secondAttribute="width" multiplier="0.8" id="lbm-FW-OVX"/>
+                            <constraint firstItem="ti7-BS-oFh" firstAttribute="bottom" secondItem="0ed-AT-0ZM" secondAttribute="bottom" constant="20" id="sl4-Dm-Rjf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ti7-BS-oFh"/>
                     </view>

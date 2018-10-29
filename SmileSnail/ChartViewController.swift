@@ -29,10 +29,6 @@ class ChartViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configButtonsStyle()
-        updateDeviceInfo()
-        // turnOffLight()
-
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 80.0
@@ -40,17 +36,31 @@ class ChartViewController: UIViewController  {
         // tableView.register(UINib(nibName: "PatientCell", bundle: nil) , forCellReuseIdentifier: "Cell")
         // Do any additional setup after loading the view.
 
+        loadPatientList()
+    }
+
+    func loadPatientList() {
         let fm = FileManager.default
         let path = getDocumentsDirectory().path
-        print(path)
+        // print(path)
         let fileList = try! fm.contentsOfDirectory(atPath: path)
-        for fileName in fileList {
+
+//        let myDictionary = myArray.reduce([Int: String]()) { (dict, person) -> [Int: String] in
+//            var dict = dict
+//            dict[person.position] = person.name
+//            return dict
+//        }
+        
+        
+        patientList = fileList.reduce([String: Int]()) { (dict, fileName) -> [String: Int] in
+            var dict = dict
             let patient = String(fileName.split(separator: "_")[0])
-            if patientList.keys.contains(patient) {
-                patientList[patient] = patientList[patient]! + 1
+            if let numberOfPhotos = dict[patient] {
+                dict[patient] = numberOfPhotos + 1
             } else {
-                patientList[patient] = 1
+                dict[patient] = 1
             }
+            return dict
         }
         // print("****\(patientList)")
         // print("***\(patientList.sorted(by: <))")
@@ -59,7 +69,13 @@ class ChartViewController: UIViewController  {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loadPatientList()
+        configButtonsStyle()
+        updateDeviceInfo()
+        // turnOffLight()
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
+        tableView.reloadData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -182,6 +198,7 @@ class ChartViewController: UIViewController  {
 
 extension  ChartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(patientList)
         return patientList.count
     }
 
