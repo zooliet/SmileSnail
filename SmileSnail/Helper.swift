@@ -48,17 +48,16 @@ func getDeviceID() -> String{
     return ""
 }
 
-func getDeviceID2() {
+func getDeviceSsid() {
     var deviceID: String?
     Alamofire.request("http://admin:admin@192.168.100.1/param.cgi?action=list&group=wifi").responseJSON { (response) in
         if response.result.isSuccess {
             //print(JSON(response.result.value!)["device_name"].stringValue.split(separator: "_")[1])
             deviceID = String(JSON(response.result.value!)["device_name"].stringValue)
-            print(deviceID!.split(separator: "_")[1])
-            Settings.shared.deviceID = String(deviceID!.split(separator: "_")[1])
+            print(deviceID!.split(separator: "_")[0])
+            Settings.shared.ssid = String(deviceID!.split(separator: "_")[0])
         } else {
-            // print(response.result.error)
-            Settings.shared.deviceID = ""
+            print(response.result)
         }
     }
 }

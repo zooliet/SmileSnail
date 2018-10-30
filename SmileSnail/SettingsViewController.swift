@@ -19,7 +19,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var patientNameTextField: UITextField!
     @IBOutlet weak var ssidTextField: UITextField!
-
+    @IBOutlet weak var updateButton: UIButton!
+    
     let settings = Settings.shared
 
     override func viewDidLoad() {
@@ -31,12 +32,18 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
         view.addGestureRecognizer(tapGesture)
 
+//        patientNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+//        ssidTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configButtonsStyle()
+        configTextFields()
         updateDeviceInfo()
+
         // turnOffLight()
         NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
@@ -54,6 +61,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+
+
+//    @objc func textFieldDidChange(_ textField: UITextField) {
+//        textField.textColor = UIColor.white
+//    }
+
 
 
     /*
@@ -87,6 +101,20 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             lightOnButton.setTitleColor(UIColor.white, for: .normal)
             lightOnButton.setTitle("Light On", for: .normal)
         }
+        
+        updateButton.layer.cornerRadius = 2.0
+        updateButton.layer.borderWidth = 2
+        updateButton.layer.borderColor = UIColor.white.cgColor
+    }
+
+    func configTextFields() {
+        patientNameTextField.text = settings.patientName
+        ssidTextField.text = settings.ssid
+
+        patientNameTextField.textColor = UIColor.lightGray
+        ssidTextField.textColor = UIColor.lightGray
+        //patientNameTextField.isUserInteractionEnabled = false
+        //ssidTextField.isUserInteractionEnabled = false
     }
 
     @objc func updateDeviceInfo() {
@@ -161,21 +189,32 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        print(textField)
+        textField.textColor = UIColor.white
         // UIView.animate(withDuration: 0.5) {
         //     self.heightConstraint.constant = 308
         //     self.view.layoutIfNeeded()
         // }
     }
     //
+
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // UIView.animate(withDuration: 0.5) {
-        //     self.heightConstraint.constant = 50
-        //     self.view.layoutIfNeeded()
-        // }
+        textField.textColor = UIColor.lightGray
     }
 
     @objc func tapped() {
         //messageTextfield.endEditing(true)
+        patientNameTextField.endEditing(true)
+        ssidTextField.endEditing(true)
+    }
+
+    @IBAction func updateButtonPressed(_ sender: UIButton) {
+        if patientNameTextField.text != settings.patientName {
+            settings.patientName = patientNameTextField.text
+        }
+
+        if ssidTextField.text != settings.ssid {
+            settings.ssid = ssidTextField.text
+            getDeviceSsid()
+        }
     }
 }

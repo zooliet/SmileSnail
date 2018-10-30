@@ -10,6 +10,8 @@ import Foundation
 //import UIKit
 import CocoaAsyncSocket
 
+let defaults = UserDefaults.standard
+
 class Settings {
     static let shared = Settings()
     var ssid: String?
@@ -18,7 +20,11 @@ class Settings {
     var lightLevel: Int?
     var deviceID: String?
     var batteryLevel: Int?
-    var patientName: String?
+    var patientName: String? {
+        didSet {
+            defaults.set(patientName!, forKey: "PatientName")
+        }
+    }
     var socket: GCDAsyncUdpSocket?
     var snapshotReq: Bool?
 
