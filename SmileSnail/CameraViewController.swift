@@ -46,6 +46,8 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         configLightLevelSlider()
         updateDeviceInfo()
 
+        thumbnails = []
+        thumbnailsView.reloadData()
         NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
 
@@ -118,7 +120,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         }
 
         DispatchQueue.main.async {
-            let deviceID = settings.deviceID!
+            let deviceID = settings.deviceID ?? ""
             let batteryLevel = settings.batteryLevel!
 
             if deviceID == "" {

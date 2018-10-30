@@ -59,7 +59,7 @@ class IntroViewController: UIViewController {
         let settings = Settings.shared
 
         DispatchQueue.main.async {
-            let deviceID = settings.deviceID!
+            let deviceID = settings.deviceID ?? ""
             let batteryLevel = settings.batteryLevel!
 
             if deviceID == "" {

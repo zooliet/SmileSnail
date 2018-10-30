@@ -50,8 +50,8 @@ class ChartViewController: UIViewController  {
 //            dict[person.position] = person.name
 //            return dict
 //        }
-        
-        
+
+
         patientList = fileList.reduce([String: Int]()) { (dict, fileName) -> [String: Int] in
             var dict = dict
             let patient = String(fileName.split(separator: "_")[0])
@@ -135,7 +135,7 @@ class ChartViewController: UIViewController  {
         }
 
         DispatchQueue.main.async {
-            let deviceID = settings.deviceID!
+            let deviceID = settings.deviceID ?? ""
             let batteryLevel = settings.batteryLevel!
 
             if deviceID == "" {

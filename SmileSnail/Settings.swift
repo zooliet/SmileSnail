@@ -17,7 +17,11 @@ class Settings {
     var ssid: String?
     var mediaUrl: String?
     var light: Bool?
-    var lightLevel: Int?
+    var lightLevel: Int? {
+      didSet {
+          defaults.set(lightLevel!, forKey: "LightLevel")
+      }
+    }
     var deviceID: String?
     var batteryLevel: Int?
     var patientName: String? {

@@ -60,13 +60,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
             settings.lightLevel = defaults.object(forKey: "LightLevel") as? Int
         }
 
-        settings.ssid = defaults.string(forKey: "SSID") ?? "entlab"
+        getDeviceInfo() { (deviceId, ssid, error)  in
+            if error != nil {
+                settings.deviceID = ""
+                settings.ssid = ""
+            } else {
+                settings.deviceID = deviceId!
+                settings.ssid = ssid!
+            }
+        }
+        // settings.ssid = "" // defaults.string(forKey: "SSID") ?? "entlab"
+        // settings.deviceID = ""
+
         settings.mediaUrl = defaults.string(forKey: "MediaURL") ?? "rtsp://admin:admin@192.168.100.1/cam1/h264"
         settings.mediaUrl = "rtsp://admin:admin@192.168.100.1/cam1/h264"
         // settings.mediaUrl = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov"
         settings.patientName = defaults.string(forKey: "PatientName") ?? "NONAME"
 
-        settings.deviceID = ""
+
         settings.batteryLevel = 99
         settings.snapshotReq = false
         // settings.socket =  GCDAsyncUdpSocket.init(delegate: self, delegateQueue: DispatchQueue.global(qos: .userInitiated), socketQueue: DispatchQueue.main)
@@ -77,13 +88,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
     }
 
     func closeApplication() {
-        let defaults = UserDefaults.standard
+        // let defaults = UserDefaults.standard
         let settings = Settings.shared
 
-        defaults.set(settings.lightLevel!, forKey: "LightLevel")
-        defaults.set(settings.ssid!, forKey: "SSID")
-        defaults.set(settings.mediaUrl!, forKey: "MediaURL")
-        defaults.set(settings.patientName!, forKey: "PatientName")
+        // defaults.set(settings.lightLevel!, forKey: "LightLevel")
+        // defaults.set(settings.ssid!, forKey: "SSID")
+        // defaults.set(settings.mediaUrl!, forKey: "MediaURL")
+        // defaults.set(settings.patientName!, forKey: "PatientName")
 
         settings.socket?.close()
         stopTimer()
@@ -138,7 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
     }
 
     func udpSocketDidClose(_ sock: GCDAsyncUdpSocket, withError error: Error?) {
-        print("Socket closed")
+        // print("Socket closed")
         // let settings = Settings.shared
         // settings.deviceID = ""
         // sendNotification()
@@ -162,7 +173,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
         settings.snapshotReq = (data[6] == 49) && (data[7] == 49)
 
         if settings.deviceID == "" {
-            settings.deviceID = getDeviceID()
+            // settings.deviceID = getDeviceID()
+            getDeviceInfo() { (deviceId, ssid, error)  in
+                if error != nil {
+                    settings.deviceID = ""
+                    settings.ssid = ""
+                } else {
+                    settings.deviceID = deviceId!
+                    settings.ssid = ssid!
+                }
+            }
         }
 
         sendNotification()

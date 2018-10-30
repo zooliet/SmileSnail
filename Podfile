@@ -15,4 +15,5 @@ target 'SmileSnail' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'CocoaAsyncSocket' 
+  pod 'SVProgressHUD'
 end

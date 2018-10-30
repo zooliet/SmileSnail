@@ -22,10 +22,12 @@
 		12D7F6BE2159F6130098F029 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D7F6BD2159F6130098F029 /* CameraViewController.swift */; };
 		12D7F6C0215A23DC0098F029 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D7F6BF215A23DC0098F029 /* ChartViewController.swift */; };
 		12D7F6C4215A28C90098F029 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D7F6C3215A28C90098F029 /* SettingsViewController.swift */; };
+		12DEE0D0218826D200BFD4ED /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 12164F43218821F5000A77B9 /* README.md */; };
 		849F98D22BAA4CBE16B1E9D7 /* Pods_SmileSnail.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8967C233D1E5D23C101CF8E7 /* Pods_SmileSnail.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		12164F43218821F5000A77B9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		125F89862166E48A00071057 /* ThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailCell.swift; sourceTree = "<group>"; };
 		125F898A216720D200071057 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		125F898C21672C1E00071057 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 		129BD32F2159D2600008A493 = {
 			isa = PBXGroup;
 			children = (
+				12164F43218821F5000A77B9 /* README.md */,
 				129BD33A2159D2600008A493 /* SmileSnail */,
 				129BD3392159D2600008A493 /* Products */,
 				18DE3BE90ABD4D0433D9593D /* Pods */,
@@ -193,6 +196,7 @@
 			files = (
 				12BA64E1215B306800704F9D /* ProgressHUD.bundle in Resources */,
 				129BD3462159D2610008A493 /* LaunchScreen.storyboard in Resources */,
+				12DEE0D0218826D200BFD4ED /* README.md in Resources */,
 				129BD3432159D2610008A493 /* Assets.xcassets in Resources */,
 				129BD3412159D2600008A493 /* Main.storyboard in Resources */,
 			);
@@ -211,6 +215,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 			);
@@ -219,6 +224,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 			);

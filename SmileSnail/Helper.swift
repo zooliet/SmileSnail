@@ -48,18 +48,105 @@ func getDeviceID() -> String{
     return ""
 }
 
-func getDeviceSsid() {
-    var deviceID: String?
-    Alamofire.request("http://admin:admin@192.168.100.1/param.cgi?action=list&group=wifi").responseJSON { (response) in
-        if response.result.isSuccess {
-            //print(JSON(response.result.value!)["device_name"].stringValue.split(separator: "_")[1])
-            deviceID = String(JSON(response.result.value!)["device_name"].stringValue)
-            print(deviceID!.split(separator: "_")[0])
-            Settings.shared.ssid = String(deviceID!.split(separator: "_")[0])
-        } else {
-            print(response.result)
+
+func getDeviceInfo(completion: @escaping (String?, String?, String?) -> Void) {
+    var request = URLRequest(url: (NSURL.init(string: "http://192.168.100.1/param.cgi?action=list&group=wifi")?.absoluteURL)!)
+    request.httpMethod = "GET"
+    // request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.timeoutInterval = 3 // 10 secs
+    Alamofire.request(request)
+        .authenticate(user: "admin", password: "admin")
+        .responseJSON { response in
+            if response.result.isSuccess {
+                // print(JSON(response.result.value!))
+                let ap_ssid: String = String(JSON(response.result.value!)["ap_ssid"].stringValue)
+                let ssid: String = String(ap_ssid.split(separator:"_")[0])
+                let deviceId: String = String(ap_ssid.split(separator:"_")[1])
+                completion(deviceId, ssid, nil)
+            } else {
+                // print("Error \(String(describing: response.result.error))")
+                completion(nil, nil, "Error")
+            }
         }
-    }
+}
+
+func setDeviceSsid(ssid: String, completion: @escaping (String) -> Void) {
+    var request = URLRequest(url: (NSURL.init(string: "http://192.168.100.1/param.cgi?action=update&group=wifi&ap_ssid=\(ssid)")?.absoluteURL)!)
+    request.httpMethod = "GET"
+    // request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.timeoutInterval = 10 // 10 secs
+    Alamofire.request(request)
+        .authenticate(user: "admin", password: "admin")
+        .responseJSON { response in
+            if response.result.isSuccess {
+                // print(JSON(response.result.value!))
+                let result: String = String(JSON(response.result.value!)["value"].stringValue)
+                if result == "0" {
+                    completion("Success")
+                } else {
+                    completion("Error")
+                }
+            } else {
+                // print("Error \(String(describing: response.result.error))")
+                completion("Error")
+            }
+        }
+}
+
+
+func getDeviceSsid(completion: @escaping (String) -> Void) {
+
+    // 방식 1: 999 Error
+    // let url = "http://192.168.100.1/param.cgi"
+    // let parameters = ["action": "list", "group": "wifi"]
+    // let headers: HTTPHeaders = [
+    //   "Accept": "application/json"
+    // ]
+
+    // let configuration = URLSessionConfiguration.default
+    // configuration.timeoutIntervalForRequest = 3
+    // configuration.timeoutIntervalForResource = 3
+    //
+    // let sessionManager = Alamofire.SessionManager(configuration: configuration)
+    // sessionManager.request(url, method: .get, parameters: parameters)
+    //     // .authenticate(user: "admin", password: "admin")
+    //     .responseJSON { response in
+    //         if response.result.isSuccess {
+    //             print(JSON(response.result.value!))
+    //         } else {
+    //             print("Error \(String(describing: response.result.error))")
+    //         }
+    //     }
+
+    // 방식 2: timeout setting 불가
+    // let url = "http://192.168.100.1/param.cgi"
+    // let parameters = ["action": "list", "group": "wifi"]
+    // Alamofire.request(url, method: .get, parameters: parameters)
+    //     .authenticate(user: "admin", password: "admin")
+    //     .responseJSON { response in
+    //         if response.result.isSuccess {
+    //             print(JSON(response.result.value!))
+    //         } else {
+    //             print("Error \(String(describing: response.result.error))")
+    //         }
+    //     }
+
+    var request = URLRequest(url: (NSURL.init(string: "http://192.168.100.1/param.cgi?action=list&group=wifi")?.absoluteURL)!)
+    request.httpMethod = "GET"
+    // request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.timeoutInterval = 3 // 10 secs
+    Alamofire.request(request)
+        .authenticate(user: "admin", password: "admin")
+        .responseJSON { response in
+            if response.result.isSuccess {
+                // print(JSON(response.result.value!))
+                let ssid: String = String(String(JSON(response.result.value!)["ap_ssid"].stringValue).split(separator:"_")[0])
+                completion(ssid)
+            } else {
+                // print("Error \(String(describing: response.result.error))")
+                completion("")
+            }
+        }
 }
 
 extension Data {
