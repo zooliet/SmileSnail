@@ -29,9 +29,13 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("CameraVC: viewDidLoad()")
 
         thumbnailsView.dataSource = self
         thumbnailsView.delegate = self
+
+        configButtons(settings.light!)
+        configLightLevelSlider()
 
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         videoView.addGestureRecognizer(recognizer)
@@ -39,11 +43,10 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("CameraVC: viewWillAppear()")
+
         setupMediaPlayer()
 
-        configButtonsStyle()
-        configVideoViewStyle()
-        configLightLevelSlider()
         updateDeviceInfo()
 
         thumbnails = []
@@ -53,13 +56,16 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("CameraVC: viewWillDisappear()")
+
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
         mediaPlayer?.stop()
         mediaPlayer = nil
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
+        print("CameraVC: deinit()")
+        // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,34 +81,6 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-
-    func configButtonsStyle() {
-        for button in [cameraButton, chartButton, settingsButton, lightOnButton] {
-            button?.layer.cornerRadius = 10.0
-            button?.layer.borderWidth = 5
-            button?.layer.borderColor = UIColor.white.cgColor
-            button?.layer.backgroundColor = UIColor.black.cgColor
-            button?.setTitleColor(UIColor.white, for: .normal)
-        }
-
-        cameraButton.layer.backgroundColor = UIColor.white.cgColor
-        cameraButton.setTitleColor(UIColor.black, for: .normal)
-
-        if settings.light! {
-            lightOnButton.layer.backgroundColor = UIColor.white.cgColor
-            lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            lightOnButton.setTitle("Light Off", for: .normal)
-        } else {
-            lightOnButton.layer.backgroundColor = UIColor.black.cgColor
-            lightOnButton.setTitleColor(UIColor.white, for: .normal)
-            lightOnButton.setTitle("Light On", for: .normal)
-        }
-    }
-
-    func configVideoViewStyle() {
-        // videoView.backgroundColor = UIColor.black
-        // videoView.layer.cornerRadius = 30
-    }
 
     func configLightLevelSlider() {
         lightLevelSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
@@ -193,7 +171,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
             // lightOnButton.setTitleColor(UIColor.white, for: .normal)
             turnLight(on: false)
         }
-        configButtonsStyle()
+        configButtons(settings.light!)
     }
 
     @IBAction func setLightLevel(_ sender: UISlider) {
@@ -204,7 +182,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         } else {
             turnLight(on: true)
         }
-        configButtonsStyle()
+        configButtons(settings.light!)
     }
 
     @IBAction func snapshotPressed(_ sender: Any) {

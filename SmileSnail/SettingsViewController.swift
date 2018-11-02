@@ -27,6 +27,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("SettingsVC: viewDidLoad()")
+        configButtons(settings.light!)
 
         patientNameTextField.delegate = self
         ssidTextField.delegate = self
@@ -42,6 +44,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("SettingVC: viewWillAppear()")
+
         getDeviceInfo() { (deviceId, ssid, error)  in
             if error != nil {
                 self.settings.deviceID = ""
@@ -52,7 +56,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             }
         }
 
-        configButtonsStyle()
         configTextFields()
         updateDeviceInfo()
 
@@ -62,11 +65,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("SettingVC: viewWillDisappear()")
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
+        print("SettingVC: deinit()")
+        // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -91,33 +96,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-
-    func configButtonsStyle() {
-        for button in [cameraButton, chartButton, settingsButton, lightOnButton] {
-            button?.layer.cornerRadius = 10.0
-            button?.layer.borderWidth = 5
-            button?.layer.borderColor = UIColor.white.cgColor
-            button?.layer.backgroundColor = UIColor.black.cgColor
-            button?.setTitleColor(UIColor.white, for: .normal)
-        }
-
-        settingsButton.layer.backgroundColor = UIColor.white.cgColor
-        settingsButton.setTitleColor(UIColor.black, for: .normal)
-
-        if settings.light! {
-            lightOnButton.layer.backgroundColor = UIColor.white.cgColor
-            lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            lightOnButton.setTitle("Light Off", for: .normal)
-        } else {
-            lightOnButton.layer.backgroundColor = UIColor.black.cgColor
-            lightOnButton.setTitleColor(UIColor.white, for: .normal)
-            lightOnButton.setTitle("Light On", for: .normal)
-        }
-
-        updateButton.layer.cornerRadius = 2.0
-        updateButton.layer.borderWidth = 2
-        updateButton.layer.borderColor = UIColor.white.cgColor
-    }
 
     func configTextFields() {
         patientNameTextField.text = settings.patientName
@@ -197,7 +175,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             // lightOnButton.setTitleColor(UIColor.white, for: .normal)
             turnLight(on: false)
         }
-        configButtonsStyle()
+        configButtons(settings.light!)
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {

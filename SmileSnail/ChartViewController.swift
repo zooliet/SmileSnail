@@ -28,6 +28,9 @@ class ChartViewController: UIViewController  {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("ChartVC: viewDidLoad()")
+        configButtons(settings.light!)
+
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -69,8 +72,9 @@ class ChartViewController: UIViewController  {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("ChartVC: viewWillAppear()")
+
         loadPatientList()
-        configButtonsStyle()
         updateDeviceInfo()
         // turnOffLight()
 
@@ -80,11 +84,14 @@ class ChartViewController: UIViewController  {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("ChartVC: viewWillDisappear()")
+
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
+        print("ChartVC: deinit()")
+        //NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -100,29 +107,6 @@ class ChartViewController: UIViewController  {
             if let indexPath = tableView.indexPathForSelectedRow {
                 destinationVC.selected = patientListSorted[indexPath.row].key
             }
-        }
-    }
-
-    func configButtonsStyle() {
-        for button in [cameraButton, chartButton, settingsButton, lightOnButton] {
-            button?.layer.cornerRadius = 10.0
-            button?.layer.borderWidth = 5
-            button?.layer.borderColor = UIColor.white.cgColor
-            button?.layer.backgroundColor = UIColor.black.cgColor
-            button?.setTitleColor(UIColor.white, for: .normal)
-        }
-
-        chartButton.layer.backgroundColor = UIColor.white.cgColor
-        chartButton.setTitleColor(UIColor.black, for: .normal)
-
-        if settings.light! {
-            lightOnButton.layer.backgroundColor = UIColor.white.cgColor
-            lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            lightOnButton.setTitle("Light Off", for: .normal)
-        } else {
-            lightOnButton.layer.backgroundColor = UIColor.black.cgColor
-            lightOnButton.setTitleColor(UIColor.white, for: .normal)
-            lightOnButton.setTitle("Light On", for: .normal)
         }
     }
 
@@ -192,7 +176,7 @@ class ChartViewController: UIViewController  {
             // lightOnButton.setTitleColor(UIColor.white, for: .normal)
             turnLight(on: false)
         }
-        configButtonsStyle()
+        configButtons(settings.light!)
     }
 }
 

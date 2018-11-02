@@ -166,3 +166,59 @@ extension Data {
         self = data
     }
 }
+
+extension UIViewController {
+  func configButtons(_ on: Bool) {
+    // print(type(of: self))
+
+    var buttons = [UIButton]()
+
+    if self is CameraViewController {
+        let ctrl = (self as? CameraViewController)!
+        buttons = [ctrl.cameraButton, ctrl.chartButton, ctrl.settingsButton, ctrl.lightOnButton]
+        makeButtonsDefault(buttons)
+        makeCurrentButton(ctrl.cameraButton)
+        makeLightOnButton(on, ctrl.lightOnButton)
+    } else if self is ChartViewController {
+        let ctrl = (self as? ChartViewController)!
+        buttons = [ctrl.cameraButton, ctrl.chartButton, ctrl.settingsButton, ctrl.lightOnButton]
+        makeButtonsDefault(buttons)
+        makeCurrentButton(ctrl.chartButton)
+        makeLightOnButton(on, ctrl.lightOnButton)
+    } else if self is SettingsViewController {
+        let ctrl = (self as? SettingsViewController)!
+        buttons = [ctrl.cameraButton, ctrl.chartButton, ctrl.settingsButton, ctrl.lightOnButton]
+        makeButtonsDefault(buttons)
+        makeCurrentButton(ctrl.settingsButton)
+        makeLightOnButton(on, ctrl.lightOnButton)
+    }
+  }
+
+  func makeButtonsDefault(_ buttons: [UIButton]) {
+      for button in buttons {
+          button.layer.cornerRadius = 10.0
+          button.layer.borderWidth = 5
+          button.layer.borderColor = UIColor.white.cgColor
+          button.layer.backgroundColor = UIColor.black.cgColor
+          button.setTitleColor(UIColor.white, for: .normal)
+      }
+  }
+
+  func makeCurrentButton(_ button: UIButton) {
+      button.layer.backgroundColor = UIColor.white.cgColor
+      button.setTitleColor(UIColor.black, for: .normal)
+  }
+
+  func makeLightOnButton(_ on: Bool, _ button: UIButton) {
+      if on {
+          button.layer.backgroundColor = UIColor.black.cgColor
+          button.setTitleColor(UIColor.white, for: .normal)
+          button.setTitle("Light On", for: .normal)
+      } else {
+          button.layer.backgroundColor = UIColor.white.cgColor
+          button.setTitleColor(UIColor.black, for: .normal)
+          button.setTitle("Light Off", for: .normal)
+      }
+  }
+
+}
