@@ -82,6 +82,19 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     }
     */
 
+    @IBAction func menuTapped(_ sender: UIButton) {
+        // print(sender.currentTitle!)
+        navigateCtrl(sender: sender, navigationController: self.navigationController)
+    }
+
+
+
+
+
+
+
+
+
     func configLightLevelSlider() {
         lightLevelSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         let lightLevel = settings.lightLevel
@@ -132,30 +145,6 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer?.play()
     }
 
-    @IBAction func menuTapped(_ sender: UIButton) {
-        // print(sender.currentTitle!)
-        var destinationClassType: AnyClass?
-        var destinationClassIdentifier: String?
-
-        if sender.currentTitle == "Chart" {
-            destinationClassType = ChartViewController.self
-            destinationClassIdentifier = "ChartVC"
-        } else if sender.currentTitle == "Settings" {
-            destinationClassType = SettingsViewController.self
-            destinationClassIdentifier = "SettingsVC"
-        }
-
-        if let viewControllers = self.navigationController?.viewControllers {
-            for viewController in viewControllers {
-                if viewController.isKind(of: destinationClassType!) {
-                    self.navigationController?.popToViewController(viewController, animated: true)
-                    return
-                }
-            }
-        }
-        let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: destinationClassIdentifier!)
-        self.navigationController?.pushViewController(destinationVC!, animated: true)
-    }
 
 
     @IBAction func toggleLightPressed(_ sender: Any) {
@@ -282,6 +271,19 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 extension CameraViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {

@@ -211,14 +211,44 @@ extension UIViewController {
 
   func makeLightOnButton(_ on: Bool, _ button: UIButton) {
       if on {
-          button.layer.backgroundColor = UIColor.black.cgColor
-          button.setTitleColor(UIColor.white, for: .normal)
-          button.setTitle("Light On", for: .normal)
+        button.layer.backgroundColor = UIColor.white.cgColor
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitle("Light Off", for: .normal)
       } else {
-          button.layer.backgroundColor = UIColor.white.cgColor
-          button.setTitleColor(UIColor.black, for: .normal)
-          button.setTitle("Light Off", for: .normal)
+        button.layer.backgroundColor = UIColor.black.cgColor
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitle("Light On", for: .normal)
       }
   }
+
+  func navigateCtrl(sender: UIButton, navigationController: UINavigationController?) {
+      var destinationClassType: AnyClass?
+      var destinationClassIdentifier: String?
+      let currentTitle = sender.currentTitle
+
+      if currentTitle == "Camera" {
+          destinationClassType = CameraViewController.self
+          destinationClassIdentifier = "CameraVC"
+      } else if currentTitle == "Chart" {
+          destinationClassType = ChartViewController.self
+          destinationClassIdentifier = "ChartVC"
+      } else if currentTitle == "Settings" {
+          destinationClassType = SettingsViewController.self
+          destinationClassIdentifier = "SettingsVC"
+      }
+
+      if let viewControllers = navigationController?.viewControllers {
+          for viewController in viewControllers {
+              if viewController.isKind(of: destinationClassType!) {
+                  navigationController?.popToViewController(viewController, animated: true)
+                  return
+              }
+          }
+      }
+
+      let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: destinationClassIdentifier!)
+      navigationController?.pushViewController(destinationVC!, animated: true)
+  }
+
 
 }

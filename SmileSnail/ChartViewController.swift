@@ -31,7 +31,6 @@ class ChartViewController: UIViewController  {
         print("ChartVC: viewDidLoad()")
         configButtons(settings.light!)
 
-
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 80.0
@@ -40,34 +39,6 @@ class ChartViewController: UIViewController  {
         // Do any additional setup after loading the view.
 
         loadPatientList()
-    }
-
-    func loadPatientList() {
-        let fm = FileManager.default
-        let path = getDocumentsDirectory().path
-        // print(path)
-        let fileList = try! fm.contentsOfDirectory(atPath: path)
-
-//        let myDictionary = myArray.reduce([Int: String]()) { (dict, person) -> [Int: String] in
-//            var dict = dict
-//            dict[person.position] = person.name
-//            return dict
-//        }
-
-
-        patientList = fileList.reduce([String: Int]()) { (dict, fileName) -> [String: Int] in
-            var dict = dict
-            let patient = String(fileName.split(separator: "_")[0])
-            if let numberOfPhotos = dict[patient] {
-                dict[patient] = numberOfPhotos + 1
-            } else {
-                dict[patient] = 1
-            }
-            return dict
-        }
-        // print("****\(patientList)")
-        // print("***\(patientList.sorted(by: <))")
-        patientListSorted = patientList.sorted(by: <)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -110,11 +81,49 @@ class ChartViewController: UIViewController  {
         }
     }
 
+    @IBAction func menuTapped(_ sender: UIButton) {
+        // print(sender.currentTitle!)
+        navigateCtrl(sender: sender, navigationController: self.navigationController)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    func loadPatientList() {
+        let fm = FileManager.default
+        let path = getDocumentsDirectory().path
+        // print(path)
+        let fileList = try! fm.contentsOfDirectory(atPath: path)
+
+        patientList = fileList.reduce([String: Int]()) { (dict, fileName) -> [String: Int] in
+            var dict = dict
+            let patient = String(fileName.split(separator: "_")[0])
+            if let numberOfPhotos = dict[patient] {
+                dict[patient] = numberOfPhotos + 1
+            } else {
+                dict[patient] = 1
+            }
+            return dict
+        }
+        // print("****\(patientList)")
+        // print("***\(patientList.sorted(by: <))")
+        patientListSorted = patientList.sorted(by: <)
+    }
+
+
     @objc func updateDeviceInfo() {
         // print("Received notification")
         let settings = Settings.shared
         if settings.snapshotReq! {
-            print("Snapshot Requested")
+            // print("Snapshot Requested")
             settings.snapshotReq = false
         }
 
@@ -138,30 +147,7 @@ class ChartViewController: UIViewController  {
         turnLight(on: false)
     }
 
-    @IBAction func menuTapped(_ sender: UIButton) {
-        // print(sender.currentTitle!)
-        var destinationClassType: AnyClass?
-        var destinationClassIdentifier: String?
 
-        if sender.currentTitle == "Camera" {
-            destinationClassType = CameraViewController.self
-            destinationClassIdentifier = "CameraVC"
-        } else if sender.currentTitle == "Settings" {
-            destinationClassType = SettingsViewController.self
-            destinationClassIdentifier = "SettingsVC"
-        }
-
-        if let viewControllers = self.navigationController?.viewControllers {
-            for viewController in viewControllers {
-                if viewController.isKind(of: destinationClassType!) {
-                    self.navigationController?.popToViewController(viewController, animated: true)
-                    return
-                }
-            }
-        }
-        let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: destinationClassIdentifier!)
-        self.navigationController?.pushViewController(destinationVC!, animated: true)
-    }
 
     @IBAction func toggleLightPressed(_ sender: Any) {
         if lightOnButton.currentTitle! == "Light On" {

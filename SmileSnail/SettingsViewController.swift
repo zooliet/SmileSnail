@@ -36,10 +36,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
         view.addGestureRecognizer(tapGesture)
 
-//        patientNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-//        ssidTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-
-
+       // patientNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+       // ssidTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -79,14 +77,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-
-
-//    @objc func textFieldDidChange(_ textField: UITextField) {
-//        textField.textColor = UIColor.white
-//    }
-
-
-
     /*
     // MARK: - Navigation
 
@@ -96,6 +86,30 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+
+    @IBAction func menuTapped(_ sender: UIButton) {
+        // print(sender.currentTitle!)
+        navigateCtrl(sender: sender, navigationController: self.navigationController)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    @objc func textFieldDidChange(_ textField: UITextField) {
+//        textField.textColor = UIColor.white
+//    }
+
+
+
 
     func configTextFields() {
         patientNameTextField.text = settings.patientName
@@ -131,30 +145,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    @IBAction func menuTapped(_ sender: UIButton) {
-        // print(sender.currentTitle!)
-        var destinationClassType: AnyClass?
-        var destinationClassIdentifier: String?
 
-        if sender.currentTitle == "Camera" {
-            destinationClassType = CameraViewController.self
-            destinationClassIdentifier = "CameraVC"
-        } else if sender.currentTitle == "Chart" {
-            destinationClassType = ChartViewController.self
-            destinationClassIdentifier = "ChartVC"
-        }
-
-        if let viewControllers = self.navigationController?.viewControllers {
-            for viewController in viewControllers {
-                if viewController.isKind(of: destinationClassType!) {
-                    self.navigationController?.popToViewController(viewController, animated: true)
-                    return
-                }
-            }
-        }
-        let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: destinationClassIdentifier!)
-        self.navigationController?.pushViewController(destinationVC!, animated: true)
-    }
 
 
 
