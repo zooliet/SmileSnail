@@ -87,12 +87,21 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         navigateCtrl(sender: sender, navigationController: self.navigationController)
     }
 
+    @IBAction func setLightLevel(_ sender: UISlider) {
+        let lightLevel = Int(sender.value)
+        settings.lightLevel = lightLevel
+        if lightLevel == 0 {
+            turnLight(on: false)
+        } else {
+            turnLight(on: true)
+        }
+        configButtons(settings.light!)
+    }
 
-
-
-
-
-
+    @IBAction func toggleLightPressed(_ sender: Any) {
+        toggleLight(lightOnButton)
+        configButtons(settings.light!)
+    }
 
 
     func configLightLevelSlider() {
@@ -147,32 +156,22 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
 
 
-    @IBAction func toggleLightPressed(_ sender: Any) {
-        if lightOnButton.currentTitle! == "Light On" {
-            lightOnButton.setTitle("Light Off", for: .normal)
-            // lightOnButton.layer.backgroundColor = UIColor.white.cgColor
-            // lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            turnLight(on: true)
+    // @IBAction func toggleLightPressed(_ sender: Any) {
+    //     if lightOnButton.currentTitle! == "Light On" {
+    //         lightOnButton.setTitle("Light Off", for: .normal)
+    //         // lightOnButton.layer.backgroundColor = UIColor.white.cgColor
+    //         // lightOnButton.setTitleColor(UIColor.black, for: .normal)
+    //         turnLight(on: true)
+    //
+    //     } else {
+    //         lightOnButton.setTitle("Light On", for: .normal)
+    //         // lightOnButton.layer.backgroundColor = UIColor.black.cgColor
+    //         // lightOnButton.setTitleColor(UIColor.white, for: .normal)
+    //         turnLight(on: false)
+    //     }
+    //     configButtons(settings.light!)
+    // }
 
-        } else {
-            lightOnButton.setTitle("Light On", for: .normal)
-            // lightOnButton.layer.backgroundColor = UIColor.black.cgColor
-            // lightOnButton.setTitleColor(UIColor.white, for: .normal)
-            turnLight(on: false)
-        }
-        configButtons(settings.light!)
-    }
-
-    @IBAction func setLightLevel(_ sender: UISlider) {
-        let lightLevel = Int(sender.value)
-        settings.lightLevel = lightLevel
-        if lightLevel == 0 {
-            turnLight(on: false)
-        } else {
-            turnLight(on: true)
-        }
-        configButtons(settings.light!)
-    }
 
     @IBAction func snapshotPressed(_ sender: Any) {
         // mediaPlayer?.saveVideoSnapshot(at: ".", withWidth: 320, andHeight: 240)

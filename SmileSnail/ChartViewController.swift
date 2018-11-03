@@ -86,6 +86,10 @@ class ChartViewController: UIViewController  {
         navigateCtrl(sender: sender, navigationController: self.navigationController)
     }
 
+    @IBAction func toggleLightPressed(_ sender: Any) {
+        toggleLight(lightOnButton)
+        configButtons(settings.light!)
+    }
 
 
 
@@ -149,21 +153,6 @@ class ChartViewController: UIViewController  {
 
 
 
-    @IBAction func toggleLightPressed(_ sender: Any) {
-        if lightOnButton.currentTitle! == "Light On" {
-            lightOnButton.setTitle("Light Off", for: .normal)
-            // lightOnButton.layer.backgroundColor = UIColor.white.cgColor
-            // lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            turnLight(on: true)
-
-        } else {
-            lightOnButton.setTitle("Light On", for: .normal)
-            // lightOnButton.layer.backgroundColor = UIColor.black.cgColor
-            // lightOnButton.setTitleColor(UIColor.white, for: .normal)
-            turnLight(on: false)
-        }
-        configButtons(settings.light!)
-    }
 }
 
 extension  ChartViewController: UITableViewDataSource {

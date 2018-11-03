@@ -92,6 +92,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         navigateCtrl(sender: sender, navigationController: self.navigationController)
     }
 
+    @IBAction func toggleLightPressed(_ sender: Any) {
+        toggleLight(lightOnButton)
+        configButtons(settings.light!)
+    }
 
 
 
@@ -153,21 +157,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         turnLight(on: false)
     }
 
-    @IBAction func toggleLightPressed(_ sender: Any) {
-        if lightOnButton.currentTitle! == "Light On" {
-            lightOnButton.setTitle("Light Off", for: .normal)
-            // lightOnButton.layer.backgroundColor = UIColor.white.cgColor
-            // lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            turnLight(on: true)
-
-        } else {
-            lightOnButton.setTitle("Light On", for: .normal)
-            // lightOnButton.layer.backgroundColor = UIColor.black.cgColor
-            // lightOnButton.setTitleColor(UIColor.white, for: .normal)
-            turnLight(on: false)
-        }
-        configButtons(settings.light!)
-    }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.textColor = UIColor.white

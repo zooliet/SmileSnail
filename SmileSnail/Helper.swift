@@ -250,5 +250,13 @@ extension UIViewController {
       navigationController?.pushViewController(destinationVC!, animated: true)
   }
 
-
+  func toggleLight(_ button: UIButton) {
+      if button.currentTitle! == "Light On" {
+          button.setTitle("Light Off", for: .normal)
+          turnLight(on: true)
+      } else {
+          button.setTitle("Light On", for: .normal)
+          turnLight(on: false)
+      }
+  }
 }

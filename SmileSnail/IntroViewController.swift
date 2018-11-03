@@ -44,6 +44,35 @@ class IntroViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+    @IBAction func toggleLightPressed(_ sender: UIButton) {
+        // toggleLight(lightOnButton)
+        if lightOnButton.currentTitle! == "Light On" {
+            lightOnButton.setTitle("Light Off", for: .normal)
+            lightOnButton.layer.backgroundColor = UIColor.white.cgColor
+            lightOnButton.setTitleColor(UIColor.black, for: .normal)
+            turnLight(on: true)
+
+        } else {
+            lightOnButton.setTitle("Light On", for: .normal)
+            lightOnButton.layer.backgroundColor = UIColor.black.cgColor
+            lightOnButton.setTitleColor(UIColor.white, for: .normal)
+            turnLight(on: false)
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     func configButtonsStyle() {
         for button in [cameraButton, chartButton, settingsButton, lightOnButton] {
             button?.layer.cornerRadius = 10.0
@@ -73,21 +102,5 @@ class IntroViewController: UIViewController {
             self.batteryLabel.setNeedsDisplay()
         }
     }
-
-    @IBAction func toggleLight(_ sender: UIButton) {
-        if lightOnButton.currentTitle! == "Light On" {
-            lightOnButton.setTitle("Light Off", for: .normal)
-            lightOnButton.layer.backgroundColor = UIColor.white.cgColor
-            lightOnButton.setTitleColor(UIColor.black, for: .normal)
-            turnLight(on: true)
-
-        } else {
-            lightOnButton.setTitle("Light On", for: .normal)
-            lightOnButton.layer.backgroundColor = UIColor.black.cgColor
-            lightOnButton.setTitleColor(UIColor.white, for: .normal)
-            turnLight(on: false)
-        }
-    }
-
 
 }
