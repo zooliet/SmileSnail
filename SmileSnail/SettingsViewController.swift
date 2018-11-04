@@ -35,29 +35,16 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
         view.addGestureRecognizer(tapGesture)
-
-       // patientNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-       // ssidTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("SettingVC: viewWillAppear()")
 
-        getDeviceInfo() { (deviceId, ssid, error)  in
-            if error != nil {
-                self.settings.deviceID = ""
-                self.settings.ssid = ""
-            } else {
-                self.settings.deviceID = deviceId!
-                self.settings.ssid = ssid!
-            }
-        }
-
         configTextFields()
         updateDeviceInfo()
+        // turnLight(on: false)
 
-        // turnOffLight()
         NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
 
@@ -97,86 +84,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         configButtons(settings.light!)
     }
 
-
-
-
-
-
-
-
-
-
-
-
-//    @objc func textFieldDidChange(_ textField: UITextField) {
-//        textField.textColor = UIColor.white
-//    }
-
-
-
-
-    func configTextFields() {
-        patientNameTextField.text = settings.patientName
-        ssidTextField.text = settings.ssid
-
-        patientNameTextField.textColor = UIColor.lightGray
-        ssidTextField.textColor = UIColor.lightGray
-        //patientNameTextField.isUserInteractionEnabled = false
-        //ssidTextField.isUserInteractionEnabled = false
-    }
-
-    @objc func updateDeviceInfo() {
-        // print("Received notification")
-        let settings = Settings.shared
-        if settings.snapshotReq! {
-            // print("Snapshot Requested")
-            settings.snapshotReq = false
-        }
-
-        DispatchQueue.main.async {
-            let deviceID = settings.deviceID ?? ""
-            let batteryLevel = settings.batteryLevel!
-
-            if deviceID == "" {
-                self.deviceLabel.text = "Not connected"
-                self.batteryLabel.text = ""
-            } else {
-                self.deviceLabel.text = "Device: \(deviceID)"
-                self.batteryLabel.text = "Battery: \(batteryLevel)%"
-            }
-            self.deviceLabel.setNeedsDisplay()
-            self.batteryLabel.setNeedsDisplay()
-        }
-    }
-
-
-
-
-
-    func turnOffLight() {
-        turnLight(on: false)
-    }
-
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.textColor = UIColor.white
-        // UIView.animate(withDuration: 0.5) {
-        //     self.heightConstraint.constant = 308
-        //     self.view.layoutIfNeeded()
-        // }
-    }
-    //
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.textColor = UIColor.lightGray
-    }
-
-    @objc func tapped() {
-        //messageTextfield.endEditing(true)
-        patientNameTextField.endEditing(true)
-        ssidTextField.endEditing(true)
-    }
-
     @IBAction func updateButtonPressed(_ sender: UIButton) {
         patientNameTextField.endEditing(true)
         ssidTextField.endEditing(true)
@@ -214,4 +121,41 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
+
+    @objc func updateDeviceInfo() {
+        // print("Received notification")
+        if settings.snapshotReq! {
+            // print("Snapshot Requested")
+            settings.snapshotReq = false
+        }
+        updateStatusLabel(deviceLabel: self.deviceLabel, batteryLabel: self.batteryLabel)
+    }
+
+
+    func configTextFields() {
+        patientNameTextField.text = settings.patientName
+        ssidTextField.text = settings.ssid
+
+        patientNameTextField.textColor = UIColor.lightGray
+        ssidTextField.textColor = UIColor.lightGray
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.textColor = UIColor.white
+        // UIView.animate(withDuration: 0.5) {
+        //     self.heightConstraint.constant = 308
+        //     self.view.layoutIfNeeded()
+        // }
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.textColor = UIColor.lightGray
+    }
+
+    @objc func tapped() {
+        //messageTextfield.endEditing(true)
+        patientNameTextField.endEditing(true)
+        ssidTextField.endEditing(true)
+    }
+
 }

@@ -259,4 +259,23 @@ extension UIViewController {
           turnLight(on: false)
       }
   }
+
+  func updateStatusLabel(deviceLabel: UILabel, batteryLabel: UILabel) {
+      let settings = Settings.shared
+      DispatchQueue.main.async {
+          let deviceID = settings.deviceID ?? ""
+          let batteryLevel = settings.batteryLevel!
+
+          if deviceID == "" {
+              deviceLabel.text = "Not connected"
+              batteryLabel.text = ""
+          } else {
+              deviceLabel.text = "Device: \(deviceID)"
+              batteryLabel.text = "Battery: \(batteryLevel)%"
+          }
+          deviceLabel.setNeedsDisplay()
+          batteryLabel.setNeedsDisplay()
+      }
+  }
+
 }

@@ -103,6 +103,13 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         configButtons(settings.light!)
     }
 
+    @IBAction func snapshotPressed(_ sender: Any) {
+        // mediaPlayer?.saveVideoSnapshot(at: ".", withWidth: 320, andHeight: 240)
+        // print(mediaPlayer?.snapshots)
+
+        // performSelector(inBackground: #selector(makeSnapshot), with: nil)
+        makeSnapshot()
+    }
 
     func configLightLevelSlider() {
         lightLevelSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
@@ -112,27 +119,14 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     @objc func updateDeviceInfo() {
         // print("Received notification")
-        let settings = Settings.shared
+
         if settings.snapshotReq! {
             // print("Snapshot Requested")
             makeSnapshot()
             settings.snapshotReq = false
         }
 
-        DispatchQueue.main.async {
-            let deviceID = settings.deviceID ?? ""
-            let batteryLevel = settings.batteryLevel!
-
-            if deviceID == "" {
-                self.deviceLabel.text = "Not connected"
-                self.batteryLabel.text = ""
-            } else {
-                self.deviceLabel.text = "Device: \(deviceID)"
-                self.batteryLabel.text = "Battery: \(batteryLevel)%"
-            }
-            self.deviceLabel.setNeedsDisplay()
-            self.batteryLabel.setNeedsDisplay()
-        }
+        updateStatusLabel(deviceLabel: self.deviceLabel, batteryLabel: self.batteryLabel)
     }
 
     func setupMediaPlayer() {
@@ -154,45 +148,18 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         mediaPlayer?.play()
     }
 
-
-
-    // @IBAction func toggleLightPressed(_ sender: Any) {
-    //     if lightOnButton.currentTitle! == "Light On" {
-    //         lightOnButton.setTitle("Light Off", for: .normal)
-    //         // lightOnButton.layer.backgroundColor = UIColor.white.cgColor
-    //         // lightOnButton.setTitleColor(UIColor.black, for: .normal)
-    //         turnLight(on: true)
-    //
-    //     } else {
-    //         lightOnButton.setTitle("Light On", for: .normal)
-    //         // lightOnButton.layer.backgroundColor = UIColor.black.cgColor
-    //         // lightOnButton.setTitleColor(UIColor.white, for: .normal)
-    //         turnLight(on: false)
-    //     }
-    //     configButtons(settings.light!)
-    // }
-
-
-    @IBAction func snapshotPressed(_ sender: Any) {
-        // mediaPlayer?.saveVideoSnapshot(at: ".", withWidth: 320, andHeight: 240)
-        // print(mediaPlayer?.snapshots)
-
-        // performSelector(inBackground: #selector(makeSnapshot), with: nil)
-        makeSnapshot()
-    }
-
     @objc func makeSnapshot() {
       if mediaPlayer == nil { return }
 
       if let player = mediaPlayer?.drawable as? UIView? {
           let size = player?.frame.size
           // let size = CGSize(width: 614.5, height: 461.0)
-          print(size!)
+          // print(size!)
 
           UIGraphicsBeginImageContext(size!)
           // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
           var rec = player?.frame
-          print(rec!.origin.x, rec!.origin.y)
+          // print(rec!.origin.x, rec!.origin.y)
           let x = CGFloat(0.0) // -rec!.origin.x
           let y = CGFloat(0.0) // -rec!.origin.y
           let width = rec!.width + rec!.origin.x
@@ -211,7 +178,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
           // let date = dateFormatter.string(from: Date())
           let imageName = "\(patientName)_\(date).jpg"
           let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
-          print(imagePath)
+          // print(imagePath)
 
           if let jpegData = snapshotImage?.jpegData(compressionQuality: 100) {
               try? jpegData.write(to: imagePath)
@@ -221,32 +188,6 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
           let indexPath = IndexPath(item: 0, section: 0)
           thumbnailsView.insertItems(at: [indexPath])
       }
-       //
-       // if let player = mediaPlayer?.drawable as? UIView? {
-       //     let size = player?.frame.size
-       //     // print(size!)
-       //
-       //     UIGraphicsBeginImageContext(size!)
-       //     // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
-       //     let rec = player?.frame
-       //     player?.drawHierarchy(in: rec!, afterScreenUpdates: false)
-       //     let snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
-       //     UIGraphicsEndImageContext();
-       //     // print(snapshotImage!)
-       //
-       //     settings.patientName = "Anna Kim"
-       //     let patientName = settings.patientName
-       //     let imageName = "\(patientName)_\(Date()).jpg"
-       //     let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
-       //
-       //     if let jpegData = snapshotImage?.jpegData(compressionQuality: 80) {
-       //         try? jpegData.write(to: imagePath)
-       //     }
-       //
-       //     thumbnails.insert(imagePath.path, at: 0)
-       //     let indexPath = IndexPath(item: 0, section: 0)
-       //     thumbnailsView.insertItems(at: [indexPath])
-       // }
     }
 
     @objc func didTap() {
@@ -269,6 +210,8 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
             mediaPlayer?.play()
         }
     }
+
+
 }
 
 

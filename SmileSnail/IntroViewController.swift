@@ -60,18 +60,10 @@ class IntroViewController: UIViewController {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    @objc func updateDeviceInfo() {
+        // print("Received notification")
+        updateStatusLabel(deviceLabel: self.deviceLabel, batteryLabel: self.batteryLabel)
+    }
 
     func configButtonsStyle() {
         for button in [cameraButton, chartButton, settingsButton, lightOnButton] {
@@ -82,25 +74,4 @@ class IntroViewController: UIViewController {
             button?.setTitleColor(UIColor.white, for: .normal)
         }
     }
-
-    @objc func updateDeviceInfo() {
-        // print("Received notification")
-        let settings = Settings.shared
-
-        DispatchQueue.main.async {
-            let deviceID = settings.deviceID ?? ""
-            let batteryLevel = settings.batteryLevel!
-
-            if deviceID == "" {
-                self.deviceLabel.text = "Not connected"
-                self.batteryLabel.text = ""
-            } else {
-                self.deviceLabel.text = "Device: \(deviceID)"
-                self.batteryLabel.text = "Battery: \(batteryLevel)%"
-            }
-            self.deviceLabel.setNeedsDisplay()
-            self.batteryLabel.setNeedsDisplay()
-        }
-    }
-
 }

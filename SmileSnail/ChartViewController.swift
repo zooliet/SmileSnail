@@ -38,7 +38,7 @@ class ChartViewController: UIViewController  {
         // tableView.register(UINib(nibName: "PatientCell", bundle: nil) , forCellReuseIdentifier: "Cell")
         // Do any additional setup after loading the view.
 
-        loadPatientList()
+        // loadPatientList()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +47,7 @@ class ChartViewController: UIViewController  {
 
         loadPatientList()
         updateDeviceInfo()
-        // turnOffLight()
+        // turnLight(on: false)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateDeviceInfo), name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
         tableView.reloadData()
@@ -91,16 +91,6 @@ class ChartViewController: UIViewController  {
         configButtons(settings.light!)
     }
 
-
-
-
-
-
-
-
-
-
-
     func loadPatientList() {
         let fm = FileManager.default
         let path = getDocumentsDirectory().path
@@ -122,42 +112,19 @@ class ChartViewController: UIViewController  {
         patientListSorted = patientList.sorted(by: <)
     }
 
-
     @objc func updateDeviceInfo() {
         // print("Received notification")
-        let settings = Settings.shared
         if settings.snapshotReq! {
             // print("Snapshot Requested")
             settings.snapshotReq = false
         }
-
-        DispatchQueue.main.async {
-            let deviceID = settings.deviceID ?? ""
-            let batteryLevel = settings.batteryLevel!
-
-            if deviceID == "" {
-                self.deviceLabel.text = "Not connected"
-                self.batteryLabel.text = ""
-            } else {
-                self.deviceLabel.text = "Device: \(deviceID)"
-                self.batteryLabel.text = "Battery: \(batteryLevel)%"
-            }
-            self.deviceLabel.setNeedsDisplay()
-            self.batteryLabel.setNeedsDisplay()
-        }
+        updateStatusLabel(deviceLabel: self.deviceLabel, batteryLabel: self.batteryLabel)
     }
-
-    func turnOffLight() {
-        turnLight(on: false)
-    }
-
-
-
 }
 
 extension  ChartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(patientList)
+        // print(patientList)
         return patientList.count
     }
 

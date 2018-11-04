@@ -74,6 +74,32 @@ class ChartImageViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
+    @IBAction func deleteButtonPressed(_ sender: UIButton) {
+        //print(self.slideShow.currentPage)
+        //print(self.fileURLs[self.slideShow.currentPage])
+        let currentPage = self.slideShow.currentPage
+        let fm = FileManager.default
+        do {
+            try fm.removeItem(at: self.fileURLs[currentPage])
+            localSource.remove(at: currentPage)
+            fileURLs.remove(at: currentPage)
+        } catch {
+            print("Error in deleting a file")
+        }
+
+        //pageControl.updateCurrentPageDisplay()
+
+        slideShow.setImageInputs(localSource)
+        if localSource.count == 0 {
+            self.navigationController?.popViewController(animated: true)
+        }
+        else if currentPage >=  localSource.count {
+            slideShow.setCurrentPage(localSource.count-1, animated: true)
+        } else {
+            slideShow.setCurrentPage(currentPage, animated: true)
+        }
+    }
+    
     func loadImages() {
         let fm = FileManager.default
         let path = getDocumentsDirectory().path
@@ -103,33 +129,5 @@ class ChartImageViewController: UIViewController {
         fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .white, color: nil)
     }
 
-    @IBAction func deleteButtonPressed(_ sender: UIButton) {
-        //print(self.slideShow.currentPage)
-        //print(self.fileURLs[self.slideShow.currentPage])
-        let currentPage = self.slideShow.currentPage
-        let fm = FileManager.default
-        do {
-            try fm.removeItem(at: self.fileURLs[currentPage])
-            localSource.remove(at: currentPage)
-            fileURLs.remove(at: currentPage)
-        } catch {
-            print("Error in deleting a file")
-        }
 
-        //pageControl.updateCurrentPageDisplay()
-        
-        slideShow.setImageInputs(localSource)
-        if localSource.count == 0 {
-            self.navigationController?.popViewController(animated: true)
-        }
-        else if currentPage >=  localSource.count {
-            slideShow.setCurrentPage(localSource.count-1, animated: true)
-        } else {
-            slideShow.setCurrentPage(currentPage, animated: true)
-        }
-    }
-    
-    @IBAction func shareButtonPressed(_ sender: UIButton) {
-        
-    }
 }
