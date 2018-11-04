@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
 
         // settings.mediaUrl = defaults.string(forKey: "MediaURL") ?? "rtsp://admin:admin@192.168.100.1/cam1/h264"
         settings.mediaUrl = "rtsp://admin:admin@192.168.100.1/cam1/h264"
-        settings.mediaUrl = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov"
+        // settings.mediaUrl = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov"
         settings.patientName = defaults.string(forKey: "PatientName") ?? "NONAME"
 
         settings.batteryLevel = 99
