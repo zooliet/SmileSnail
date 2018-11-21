@@ -98,6 +98,17 @@ class ChartImageViewController: UIViewController {
         }
     }
 
+    @IBAction func shareButtonPressed(_ sender: UIButton) {
+        let currentPage = self.slideShow.currentPage
+        let file = self.fileURLs[currentPage]
+        // print(file, type(of: file))
+        // let image = UIImage(named: "delete-icon")
+        let vc = UIActivityViewController(activityItems: [file], applicationActivities: [])
+        // vc.popoverPresentationController?.sourceView = self.view
+        vc.popoverPresentationController?.sourceView = sender
+        present(vc, animated: true)
+    }
+
     func loadImages() {
         let fm = FileManager.default
         let path = getDocumentsDirectory().path

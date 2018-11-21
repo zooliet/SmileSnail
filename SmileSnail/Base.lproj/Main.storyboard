@@ -435,7 +435,7 @@
                                     <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="shareButtonPressed:" destination="N4g-bc-ZxV" eventType="touchUpInside" id="KA4-Q7-JJc"/>
+                                    <action selector="shareButtonPressed:" destination="N4g-bc-ZxV" eventType="touchUpInside" id="se6-S7-jV7"/>
                                 </connections>
                             </button>
                         </subviews>
