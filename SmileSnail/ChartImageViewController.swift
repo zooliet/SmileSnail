@@ -83,9 +83,7 @@ class ChartImageViewController: UIViewController {
             try fm.removeItem(at: self.fileURLs[currentPage])
             localSource.remove(at: currentPage)
             fileURLs.remove(at: currentPage)
-        } catch {
-            print("Error in deleting a file")
-        }
+        } catch { print("Error in deleting a file") }
 
         //pageControl.updateCurrentPageDisplay()
 
@@ -99,7 +97,7 @@ class ChartImageViewController: UIViewController {
             slideShow.setCurrentPage(currentPage, animated: true)
         }
     }
-    
+
     func loadImages() {
         let fm = FileManager.default
         let path = getDocumentsDirectory().path
@@ -109,9 +107,7 @@ class ChartImageViewController: UIViewController {
             fileList = try fm.contentsOfDirectory(atPath: path).sorted(by: >).filter { fileName in
                 return fileName.hasPrefix(selected!)
             }
-        } catch {
-            print("Error in File Listing")
-        }
+        } catch { print("Error in File Listing") }
 
         fileURLs = fileList.map { fileName in getDocumentsDirectory().appendingPathComponent(fileName) }
 

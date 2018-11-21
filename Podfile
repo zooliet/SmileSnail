@@ -9,6 +9,7 @@ target 'SmileSnail' do
   # Pods for SmileSnail
   # pod 'ChameleonFramework/Swift', :git => 'https://github.com/zooliet/Chameleon.git'
   pod 'SwipeCellKit'
+  # pod 'SwipeCellKit', :git => 'https://github.com/SwipeCellKit/SwipeCellKit.git', :branch => 'swift_4.2'
   pod 'ImageSlideshow'
   pod 'MobileVLCKit'
   # pod 'SwiftSocket'

@@ -106,9 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
             // try socket?.connect(toHost: "192.168.0.26", onPort: 1008)
             try socket?.connect(toHost: "192.168.100.1", onPort: 1008)
             try socket?.beginReceiving()
-        } catch {
-            print("Error: Socket connection")
-        }
+        } catch { print("Error: Socket connection") }
     }
 
     func startTimer() {

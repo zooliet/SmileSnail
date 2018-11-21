@@ -29,7 +29,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("CameraVC: viewDidLoad()")
+        // print("CameraVC: viewDidLoad()")
 
         thumbnailsView.dataSource = self
         thumbnailsView.delegate = self
@@ -43,7 +43,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("CameraVC: viewWillAppear()")
+        // print("CameraVC: viewWillAppear()")
 
         setupMediaPlayer()
 
@@ -56,7 +56,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("CameraVC: viewWillDisappear()")
+        // print("CameraVC: viewWillDisappear()")
 
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
         mediaPlayer?.stop()
@@ -64,7 +64,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
     }
 
     deinit {
-        print("CameraVC: deinit()")
+        // print("CameraVC: deinit()")
         // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 

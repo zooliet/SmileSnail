@@ -28,7 +28,7 @@ class ChartViewController: UIViewController  {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ChartVC: viewDidLoad()")
+        // print("ChartVC: viewDidLoad()")
         configButtons(settings.light!)
 
         tableView.dataSource = self
@@ -43,7 +43,7 @@ class ChartViewController: UIViewController  {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("ChartVC: viewWillAppear()")
+        // print("ChartVC: viewWillAppear()")
 
         loadPatientList()
         updateDeviceInfo()
@@ -55,13 +55,13 @@ class ChartViewController: UIViewController  {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("ChartVC: viewWillDisappear()")
+        // print("ChartVC: viewWillDisappear()")
 
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
 
     deinit {
-        print("ChartVC: deinit()")
+        // print("ChartVC: deinit()")
         //NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 
@@ -125,17 +125,21 @@ class ChartViewController: UIViewController  {
 extension  ChartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // print(patientList)
-        return patientList.count
+        return patientListSorted.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        // cell.delegate = self
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SwipeTableViewCell
+        cell.delegate = self
         // cell.videoLabel.text = "\(String(format: "%03d", indexPath.row+1)). \(Date()) No Name" // messages[indexPath.row]
 
         cell.textLabel?.text = patientListSorted[indexPath.row].key
         cell.accessoryType = .disclosureIndicator
         return cell
+    }
+
+    func deleteImages(at indexPath: IndexPath) {
+        print("\(indexPath.row): \(patientListSorted[indexPath.row].key)")
     }
 }
 
@@ -146,18 +150,45 @@ extension ChartViewController: UITableViewDelegate {
     }
 }
 
-// extension ChartViewController: SwipeTableViewCellDelegate {
-//     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-//         // let message = messages[indexPath.row]
-//         guard orientation == .right else { return nil }
-//         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-//             // self.updateModel(at: indexPath)
-//         }
-//         // customize the action appearance
-//         deleteAction.image = UIImage(named: "delete-icon")
-//         return [deleteAction]
-//     }
-// }
+extension ChartViewController: SwipeTableViewCellDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            let nameSuffix = self.patientListSorted[indexPath.row].key
+
+            let fm = FileManager.default
+            let path = getDocumentsDirectory().path
+            // print(path)
+            var fileList: [String] = [String]()
+
+            do {
+                fileList = try fm.contentsOfDirectory(atPath: path).filter { fileName in
+                    return fileName.hasPrefix(nameSuffix)
+                }
+            } catch { print("Error in File Listing") }
+
+            for f in fileList {
+                let removeFile = getDocumentsDirectory().appendingPathComponent(f)
+                do {
+                    try fm.removeItem(at: removeFile)
+                } catch { print("Error in deleting a file") }
+            }
+            self.patientListSorted.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+        // customize the action appearance
+        // deleteAction.image = UIImage(named: "delete-icon")
+        return [deleteAction]
+    }
+
+    // func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+    //     var options = SwipeOptions()
+    //     options.backgroundColor = UIColor.clear
+    //     options.expansionStyle = .none
+    //     options.transitionStyle = .border
+    //     return options
+    // }
+}
 
 // class PatientCell: SwipeTableViewCell {
 //     @IBOutlet weak var patientLabel: UILabel!

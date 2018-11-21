@@ -27,7 +27,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("SettingsVC: viewDidLoad()")
+        // print("SettingsVC: viewDidLoad()")
         configButtons(settings.light!)
 
         patientNameTextField.delegate = self
@@ -39,7 +39,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("SettingVC: viewWillAppear()")
+        // print("SettingVC: viewWillAppear()")
 
         configTextFields()
         updateDeviceInfo()
@@ -50,12 +50,12 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("SettingVC: viewWillDisappear()")
+        // print("SettingVC: viewWillDisappear()")
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: nil)
     }
 
     deinit {
-        print("SettingVC: deinit()")
+        // print("SettingVC: deinit()")
         // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "statusPollingNotification"), object: self)
     }
 
