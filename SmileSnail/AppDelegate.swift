@@ -166,7 +166,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
 
         let batteryLevel = (data[4] - 48) * 10 + (data[5] - 48)
         // print(data[4], data[5], batteryLevel)
-        settings.batteryLevel = Int(batteryLevel+1)
+
+        if(batteryLevel >= 0 && batteryLevel <= 99) {
+          settings.batteryLevel = Int(batteryLevel+1)
+        }
         settings.snapshotReq = (data[6] == 49) && (data[7] == 49)
 
         if settings.deviceID == "" {
