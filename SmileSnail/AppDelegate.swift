@@ -163,9 +163,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GCDAsyncUdpSocketDelegate
         // let str = String(decoding: data, as: UTF8.self) as NSString
         // print("Received: \(str) from \(host!):\(port)")
         let settings = Settings.shared
-
-        let batteryLevel = (data[4] - 48) * 10 + (data[5] - 48)
-        // print(data[4], data[5], batteryLevel)
+        let batteryLevel = Int((data[4] - 48) * 10 + (data[5] - 48))
+        // print(batteryLevel)
 
         if(batteryLevel >= 0 && batteryLevel <= 99) {
           settings.batteryLevel = Int(batteryLevel+1)
