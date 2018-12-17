@@ -39,6 +39,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         videoView.addGestureRecognizer(recognizer)
+        videoView.transform = CGAffineTransform(rotationAngle: .pi)
     }
 
     override func viewWillAppear(_ animated: Bool) {
