@@ -39,13 +39,13 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         videoView.addGestureRecognizer(recognizer)
-        videoView.transform = CGAffineTransform(rotationAngle: .pi)
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // print("CameraVC: viewWillAppear()")
-
+        // videoView.transform = CGAffineTransform(rotationAngle: .pi)
         setupMediaPlayer()
 
         updateDeviceInfo()
@@ -145,6 +145,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
         ])
         mediaPlayer?.media = media
         mediaPlayer?.delegate = self
+        videoView.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi))
         mediaPlayer?.drawable = videoView
         mediaPlayer?.play()
     }
@@ -153,13 +154,16 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
       if mediaPlayer == nil { return }
 
       if let player = mediaPlayer?.drawable as? UIView? {
+          // player?.transform = CGAffineTransform(rotationAngle: .pi)
           let size = player?.frame.size
           // let size = CGSize(width: 614.5, height: 461.0)
           // print(size!)
 
+          // player?.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi))
           UIGraphicsBeginImageContext(size!)
           // UIGraphicsBeginImageContextWithOptions(size!, false, UIScreen.main.scale)
           var rec = player?.frame
+
           // print(rec!.origin.x, rec!.origin.y)
           let x = CGFloat(0.0) // -rec!.origin.x
           let y = CGFloat(0.0) // -rec!.origin.y
@@ -167,10 +171,15 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
           let height = rec!.height + rec!.origin.y
 
           rec = CGRect(x: x, y: y, width: width, height: height)
+
           player?.drawHierarchy(in: rec!, afterScreenUpdates: false)
+          // player?.transform = CGAffineTransform(rotationAngle: .pi)
           let snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+
           UIGraphicsEndImageContext();
           // print(snapshotImage!)
+        
+          let rotatedImage = snapshotImage?.rotate(radians: .pi)
 
           let patientName = settings.patientName!
           let date = Date()
@@ -181,7 +190,7 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
           let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
           // print(imagePath)
 
-          if let jpegData = snapshotImage?.jpegData(compressionQuality: 100) {
+          if let jpegData = rotatedImage?.jpegData(compressionQuality: 100) {
               try? jpegData.write(to: imagePath)
           }
 
@@ -216,18 +225,6 @@ class CameraViewController: UIViewController, VLCMediaPlayerDelegate {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 extension CameraViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -245,6 +242,7 @@ extension CameraViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         mediaPlayer = nil
+        videoView.transform = CGAffineTransform(rotationAngle: 0)
         videoView.image = UIImage(named: thumbnails[indexPath.item])
         // collectionView.deselectItem(at: indexPath, animated: true)
     }
@@ -260,5 +258,29 @@ extension CameraViewController: UIScrollViewDelegate, UICollectionViewDelegate {
 
         offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
         targetContentOffset.pointee = offset
+    }
+}
+
+
+extension UIImage {
+    func rotate(radians: CGFloat) -> UIImage {
+        let rotatedSize = CGRect(origin: .zero, size: size)
+            .applying(CGAffineTransform(rotationAngle: CGFloat(radians)))
+            .integral.size
+        UIGraphicsBeginImageContext(rotatedSize)
+        if let context = UIGraphicsGetCurrentContext() {
+            let origin = CGPoint(x: rotatedSize.width / 2.0,
+                                 y: rotatedSize.height / 2.0)
+            context.translateBy(x: origin.x, y: origin.y)
+            context.rotate(by: radians)
+            draw(in: CGRect(x: -origin.x, y: -origin.y,
+                            width: size.width, height: size.height))
+            let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            return rotatedImage ?? self
+        }
+        
+        return self
     }
 }
